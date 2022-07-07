@@ -1,4 +1,4 @@
-import { LoggingTypeEnum } from '@src/logger/enums';
+import { LoggingTypeEnum } from '../enums';
 
 export interface DebugLogInterface {
   type: LoggingTypeEnum.system;

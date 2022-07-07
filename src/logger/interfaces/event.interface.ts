@@ -1,4 +1,4 @@
-import { EventNameEnum } from '@src/logger/enums';
+import { EventNameEnum } from '../enums';
 
 export interface EventInterface {
   id: string;

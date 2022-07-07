@@ -4,10 +4,10 @@ import { ConfigService } from '@nestjs/config';
 import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
 import { ClsService } from 'nestjs-cls';
 import { Observable, tap } from 'rxjs';
-import { ClsKeyEnum } from '@src/library/enums';
-import { LoggingTypeEnum } from '@src/logger/enums';
-import { Logger } from '@src/logger/services';
-import { getGqlOperationName } from '@src/logger/utilities';
+import { ClsKeyEnum } from '../../library/enums';
+import { LoggingTypeEnum } from '../enums';
+import { Logger } from '../services';
+import { getGqlOperationName } from '../utilities';
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {

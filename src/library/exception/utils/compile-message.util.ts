@@ -1,4 +1,4 @@
-import { JsonObject } from '@src/library/scalars';
+import { JsonObject } from 'src/library/scalars';
 
 export const compileMessage = (content: string, contentVars: JsonObject): string =>
   Object.keys(contentVars).reduce(

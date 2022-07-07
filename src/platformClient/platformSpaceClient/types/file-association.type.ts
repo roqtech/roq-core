@@ -1,4 +1,4 @@
-import { FileResponseType } from '@src/platformClient/platformSpaceClient/types';
+import { FileResponseType } from 'src/platformClient/platformSpaceClient/types';
 
 export type FileAssociationType = {
   createdAt: string;

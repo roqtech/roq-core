@@ -1,1 +1,1 @@
-export { Logger } from '@src/logger/services/logger';
+export { Logger } from 'src/logger/services/logger';

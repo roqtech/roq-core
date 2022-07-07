@@ -1,4 +1,4 @@
-import { NotificationRecipient } from '@src/platformClient/platformNotificationClient/types';
+import { NotificationRecipient } from 'src/platformClient/platformNotificationClient/types';
 
 type NotificationEntitiesCreateArgType = {
   uuid: string;

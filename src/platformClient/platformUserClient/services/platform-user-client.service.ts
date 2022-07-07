@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserTokenTypeEnum } from '@src/platformClient/platformUserClient/enums';
+import { UserTokenTypeEnum } from 'src/platformClient/platformUserClient/enums';
 import {
   acceptUserInvitationMutation,
   checkUserInviteTokenQuery,
@@ -19,7 +19,7 @@ import {
   userProvidersQuery,
   userTokenQuery,
   verifyUserRefreshTokenMutation,
-} from '@src/platformClient/platformUserClient/graphql';
+} from 'src/platformClient/platformUserClient/graphql';
 import {
   CheckUserInviteToken,
   CheckUserRestorePasswordToken,
@@ -37,8 +37,8 @@ import {
   UserTokenResponseType,
   UserTokensQueryArgs,
   UserValidateEmailTokenCreateMutationArgs,
-} from '@src/platformClient/platformUserClient/types';
-import { PlatformServiceAccountClientService } from '@src/platformClient/services';
+} from 'src/platformClient/platformUserClient/types';
+import { PlatformServiceAccountClientService } from 'src/platformClient/services';
 
 @Injectable()
 export class PlatformUserClientService {

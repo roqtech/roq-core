@@ -1,3 +1,3 @@
-import { EqualToFilterInterface, NotEqualToFilterInterface } from '@src/library/interfaces';
+import { EqualToFilterInterface, NotEqualToFilterInterface } from '../interfaces';
 
 export interface BooleanFilterInterface extends EqualToFilterInterface<boolean>, NotEqualToFilterInterface<boolean> {}

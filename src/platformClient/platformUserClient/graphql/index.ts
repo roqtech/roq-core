@@ -11,7 +11,7 @@ export {
   verifyUserRefreshTokenMutation,
   acceptUserInvitationMutation,
   updateUserInviteMutation,
-} from '@src/platformClient/platformUserClient/graphql/mutations';
+} from 'src/platformClient/platformUserClient/graphql/mutations';
 
 export {
   checkUserRestorePasswordTokenQuery,
@@ -20,6 +20,6 @@ export {
   userProvidersQuery,
   checkUserInviteTokenQuery,
   userTokenQuery,
-} from '@src/platformClient/platformUserClient/graphql/queries';
+} from 'src/platformClient/platformUserClient/graphql/queries';
 
-export { userInviteFragment, userInviteTokenFragment } from '@src/platformClient/platformUserClient/graphql/fragments';
+export { userInviteFragment, userInviteTokenFragment } from 'src/platformClient/platformUserClient/graphql/fragments';

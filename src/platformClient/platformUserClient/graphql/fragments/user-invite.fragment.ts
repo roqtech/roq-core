@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client/core';
-import { userInviteTokenFragment } from '@src/platformClient/platformUserClient/graphql/fragments';
+import { userInviteTokenFragment } from 'src/platformClient/platformUserClient/graphql/fragments';
 
 export const userInviteFragment = gql`
   ${userInviteTokenFragment}

@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { Format } from 'logform';
 import { ClsService } from 'nestjs-cls';
-import { ClsKeyEnum } from '@src/library/enums';
+import { ClsKeyEnum } from 'src/library/enums';
 import * as winston from 'winston';
 
 export const initialFormat = (configService: ConfigService, cls: ClsService): Format => winston.format((info) => {

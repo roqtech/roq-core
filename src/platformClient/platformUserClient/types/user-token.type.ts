@@ -1,4 +1,4 @@
-import { User, UserInvite } from '@src/platformClient/platformUserClient/types';
+import { User, UserInvite } from 'src/platformClient/platformUserClient/types';
 
 export interface UserToken {
   id: string;

@@ -3,8 +3,8 @@ import { LoggerService } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { WinstonModule } from 'nest-winston';
 import { ClsServiceManager } from 'nestjs-cls';
-import { initialFormat, messageFormat, skipFieldsFormat } from '@src/logger/formats';
-import { GoogleCloudTransport, NewrelicTransport } from '@src/logger/transports';
+import { initialFormat, messageFormat, skipFieldsFormat } from '../formats';
+import { GoogleCloudTransport, NewrelicTransport } from '../transports';
 import * as winston from 'winston';
 
 export function createLogger(configService: ConfigService): LoggerService {

@@ -1,5 +1,5 @@
-import { LoggingTypeEnum } from '@src/logger/enums';
-import { ConsumerLogInterface } from '@src/logger/interfaces';
+import { LoggingTypeEnum } from '../enums';
+import { ConsumerLogInterface } from '../interfaces';
 import { EventInterface } from './event.interface';
 
 export interface EventSubscriberErrorLogInterface {

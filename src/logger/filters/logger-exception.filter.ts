@@ -1,8 +1,8 @@
 import { ArgumentsHost, Catch, HttpServer } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { GqlArgumentsHost } from '@nestjs/graphql';
-import { LoggingTypeEnum } from '@src/logger/enums';
-import { Logger } from '@src/logger/services';
+import { LoggingTypeEnum } from 'src/logger/enums';
+import { Logger } from 'src/logger/services';
 
 @Catch()
 export class LoggerExceptionFilter extends BaseExceptionFilter {

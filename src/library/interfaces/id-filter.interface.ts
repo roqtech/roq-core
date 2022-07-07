@@ -3,7 +3,7 @@ import {
   NotEqualToFilterInterface,
   ValueInFilterInterface,
   ValueNotInFilterInterface,
-} from '@src/library/interfaces';
+} from '../interfaces';
 
 export interface IdFilterInterface
   extends EqualToFilterInterface<string>,

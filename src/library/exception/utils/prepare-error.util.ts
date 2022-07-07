@@ -1,4 +1,4 @@
-import { UtilityService } from '@src/library/services';
+import { UtilityService } from 'src/library/services';
 
 export const prepareError = (defaultMessage: string, errorCode: string, error?: any): string => {
   const variables = error && error.variables ? error.variables : {};

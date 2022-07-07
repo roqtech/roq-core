@@ -1,5 +1,5 @@
-import { OrderEnum } from '@src/library/enums';
-import { QueryFilterInterface } from '@src/library/interfaces';
+import { OrderEnum } from '../enums';
+import { QueryFilterInterface } from '../interfaces';
 
 export interface QueryInterface {
   offset?: number;

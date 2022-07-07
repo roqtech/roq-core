@@ -1,4 +1,4 @@
-import { DateFilterInterface, IdFilterInterface } from '@src/library/interfaces';
+import { DateFilterInterface, IdFilterInterface } from '../interfaces';
 
 export interface QueryFilterInterface {
   id?: IdFilterInterface;

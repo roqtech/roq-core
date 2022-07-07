@@ -1,1 +1,1 @@
-export { PlatformUserClientService } from '@src/platformClient/platformUserClient/services/platform-user-client.service';
+export { PlatformUserClientService } from 'src/platformClient/platformUserClient/services/platform-user-client.service';

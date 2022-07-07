@@ -1,6 +1,6 @@
-import { IdFilterArgType, StringFilterArgType } from '@src/library/argTypes';
-import { OrderEnum } from '@src/library/enums';
-import { FileOrderSortEnum } from '@src/platformClient/platformSpaceClient/enums';
+import { IdFilterArgType, StringFilterArgType } from 'src/library/argTypes';
+import { OrderEnum } from 'src/library/enums';
+import { FileOrderSortEnum } from 'src/platformClient/platformSpaceClient/enums';
 
 export type GetFilesArgsType = {
   entityIdentifiers: IdFilterArgType;

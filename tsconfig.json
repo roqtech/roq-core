@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "CommonJS",
     "outDir": "./dist",
-    "rootDir": "./src",
-    "target": "es2017"
+    "rootDir": ".",
+    "target": "es2017",
+    "baseUrl": ".",
   },
   "extends": "./tsconfig.base.json",
   "exclude": [

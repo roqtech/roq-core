@@ -1,4 +1,4 @@
-import { MailEntity, MailRecipient } from '@src/platformClient/platformMailClient/types';
+import { MailEntity, MailRecipient } from 'src/platformClient/platformMailClient/types';
 
 export interface MailSendDto {
   subject?: string;

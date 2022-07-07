@@ -23,7 +23,7 @@ import {
   OutgoingRequestErrorLogInterface,
   OutgoingRequestLogInterface,
   OutgoingRequestResponseLogInterface
-} from '@src/logger/interfaces';
+} from '../interfaces';
 
 export class Logger extends BaseLogger {
   log(

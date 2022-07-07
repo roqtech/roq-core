@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "declaration": false,
+    "declaration": true,
     "downlevelIteration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -13,7 +13,7 @@
     "moduleResolution": "node",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "strict": false
   },
   "exclude": ["node_modules", "tmp"]

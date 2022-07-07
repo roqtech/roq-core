@@ -1,5 +1,5 @@
-import { LoggingTypeEnum } from '@src/logger/enums';
-import { HttpRequestLogInterface } from '@src/logger/interfaces';
+import { LoggingTypeEnum } from '../enums';
+import { HttpRequestLogInterface } from '../interfaces';
 
 export interface IncomingRequestLogInterface {
   type: LoggingTypeEnum.incomingRequest;

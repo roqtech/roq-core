@@ -1,6 +1,6 @@
 /* eslint-disable @roq/name-of-class-and-function-rule */
 import { ArgumentMetadata, ParseUUIDPipe, ParseUUIDPipeOptions, PipeTransform } from '@nestjs/common';
-import { InvalidUUIDInputException } from '@src/library/exception';
+import { InvalidUUIDInputException } from '../exception';
 
 interface PipeOpts extends ParseUUIDPipeOptions {}
 

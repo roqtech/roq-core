@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { Format } from 'logform';
 // eslint-disable-next-line @roq/imports-should-follow-conventions
-import { skipFields } from '@src/logger/utilities';
+import { skipFields } from 'src/logger/utilities';
 import * as winston from 'winston';
 
 export const skipFieldsFormat = (configService: ConfigService,): Format => {

@@ -1,2 +1,2 @@
-export { GoogleCloudTransport } from '@src/logger/transports/google-cloud.transport';
-export { NewrelicTransport } from '@src/logger/transports/newrelic.transport';
+export { GoogleCloudTransport } from './google-cloud.transport';
+export { NewrelicTransport } from './newrelic.transport';
