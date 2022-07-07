@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "target": "es2017"
+  },
+  "extends": "./tsconfig.base.json",
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
+}
