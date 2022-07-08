@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client/core';
-import { userInviteFragment } from 'src/platformClient/platformUserClient/graphql/fragments';
+import { gql } from '@apollo/client/core'
+import { userInviteFragment } from 'src/platformClient/platformUserClient/graphql/fragments'
 
 export const acceptUserInvitationMutation = gql`
   ${userInviteFragment}
@@ -8,4 +8,4 @@ export const acceptUserInvitationMutation = gql`
       ...UserInvite
     }
   }
-`;
+`

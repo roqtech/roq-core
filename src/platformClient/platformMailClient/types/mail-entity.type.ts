@@ -1,5 +1,5 @@
 export interface MailEntity {
-  uuid: string;
-  type: string;
-  alias?: string;
+  uuid: string
+  type: string
+  alias?: string
 }

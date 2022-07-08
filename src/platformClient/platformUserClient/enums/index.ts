@@ -1,1 +1,1 @@
-export { UserTokenTypeEnum } from './user-token.enum';
+export { UserTokenTypeEnum } from './user-token.enum'

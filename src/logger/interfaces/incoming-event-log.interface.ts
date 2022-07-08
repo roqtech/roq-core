@@ -1,11 +1,11 @@
-import { EventInterface, ConsumerLogInterface } from '../interfaces';
-import { LoggingTypeEnum } from '../enums';
+import { EventInterface, ConsumerLogInterface } from '../interfaces'
+import { LoggingTypeEnum } from '../enums'
 
 export interface IncomingEventLogInterface {
-  type: LoggingTypeEnum.incomingEvent;
+  type: LoggingTypeEnum.incomingEvent
   event: {
-    body: EventInterface;
-    headers: unknown;
-    consumers: ConsumerLogInterface[];
-  };
+    body: EventInterface
+    headers: unknown
+    consumers: ConsumerLogInterface[]
+  }
 }

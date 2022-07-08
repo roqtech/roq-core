@@ -1,10 +1,10 @@
-import { LoggingTypeEnum } from 'src/logger/enums';
-import { GraphqlRequestLogInterface } from 'src/logger/interfaces';
+import { LoggingTypeEnum } from 'src/logger/enums'
+import { GraphqlRequestLogInterface } from 'src/logger/interfaces'
 
 export interface OutgoingMutationErrorLogInterface {
-  type: LoggingTypeEnum.outgoingMutationError;
-  request: GraphqlRequestLogInterface;
+  type: LoggingTypeEnum.outgoingMutationError
+  request: GraphqlRequestLogInterface
   response: {
-    data: unknown;
-  };
+    data: unknown
+  }
 }

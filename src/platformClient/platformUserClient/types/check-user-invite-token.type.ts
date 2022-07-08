@@ -1,6 +1,5 @@
-
 export interface CheckUserInviteToken {
-  isValid: boolean;
-  isExpired?: boolean;
-  email?: string;
+  isValid: boolean
+  isExpired?: boolean
+  email?: string
 }

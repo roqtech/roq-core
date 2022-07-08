@@ -1,4 +1,4 @@
-import { registerEnumType } from '@nestjs/graphql';
+import { registerEnumType } from '@nestjs/graphql'
 
 export enum FileStatusEnum {
   UPLOAD_PENDING = 'UPLOAD_PENDING',
@@ -8,4 +8,4 @@ export enum FileStatusEnum {
   CANCELLED = 'CANCELLED',
 }
 
-registerEnumType(FileStatusEnum, { name: 'FileStatusEnum' });
+registerEnumType(FileStatusEnum, { name: 'FileStatusEnum' })

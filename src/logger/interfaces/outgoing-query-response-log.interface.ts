@@ -1,10 +1,10 @@
-import { LoggingTypeEnum } from '../enums';
-import { GraphqlRequestLogInterface } from '../interfaces';
+import { LoggingTypeEnum } from '../enums'
+import { GraphqlRequestLogInterface } from '../interfaces'
 
 export interface OutgoingQueryResponseLogInterface {
-  type: LoggingTypeEnum.outgoingQueryResponse;
-  request: GraphqlRequestLogInterface;
+  type: LoggingTypeEnum.outgoingQueryResponse
+  request: GraphqlRequestLogInterface
   response: {
-    data?: unknown;
-  };
+    data?: unknown
+  }
 }

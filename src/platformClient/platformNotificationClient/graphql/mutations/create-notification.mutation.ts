@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core';
+import { gql } from '@apollo/client/core'
 
 export const createNotificationMutation = gql`
   mutation createNotification($notificationData: NotificationCreateDto!) {
@@ -6,4 +6,4 @@ export const createNotificationMutation = gql`
       webNotifications
     }
   }
-`;
+`

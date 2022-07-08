@@ -1,10 +1,10 @@
-import { ArgsType, Field, Int } from '@nestjs/graphql';
+import { ArgsType, Field, Int } from '@nestjs/graphql'
 
 @ArgsType()
 export class BaseArgType {
   @Field(() => Int, { nullable: true })
-  limit?: number;
+  limit?: number
 
   @Field(() => Int, { nullable: true })
-  offset?: number;
+  offset?: number
 }

@@ -1,26 +1,26 @@
-import { BooleanFilterArgType, DateFilterArgType, IdFilterArgType, StringFilterArgType } from 'src/platformClient/types';
+import { BooleanFilterArgType, DateFilterArgType, IdFilterArgType, StringFilterArgType } from 'src/platformClient/types'
 /* eslint-disable @typescript-eslint/naming-convention */
 
 type UserTokenFilterArgType = {
-  id?: IdFilterArgType | null;
-  token?: StringFilterArgType | null;
-  type?: StringFilterArgType | null;
-  userId?: IdFilterArgType | null;
-  userInviteId?: IdFilterArgType | null;
-  validTill?: DateFilterArgType | null;
-};
+  id?: IdFilterArgType | null
+  token?: StringFilterArgType | null
+  type?: StringFilterArgType | null
+  userId?: IdFilterArgType | null
+  userInviteId?: IdFilterArgType | null
+  validTill?: DateFilterArgType | null
+}
 
 type UserProviderFilterArgType = {
-  id?: IdFilterArgType | null;
-  optedIn?: BooleanFilterArgType | null;
-  providerIdentifier?: StringFilterArgType | null;
-  providerUserIdentifier?: StringFilterArgType | null;
-  userId?: IdFilterArgType | null;
-};
+  id?: IdFilterArgType | null
+  optedIn?: BooleanFilterArgType | null
+  providerIdentifier?: StringFilterArgType | null
+  providerUserIdentifier?: StringFilterArgType | null
+  userId?: IdFilterArgType | null
+}
 
 enum OrderEnum {
   Asc = 'ASC',
-  Desc = 'DESC'
+  Desc = 'DESC',
 }
 
 enum UserTokenOrderSortEnum {
@@ -28,30 +28,30 @@ enum UserTokenOrderSortEnum {
   Token = 'TOKEN',
   Type = 'TYPE',
   UpdatedAt = 'UPDATED_AT',
-  ValidTill = 'VALID_TILL'
+  ValidTill = 'VALID_TILL',
 }
 
 type UserTokenOrderArgType = {
-  order: OrderEnum | `${OrderEnum}`;
-  sort: UserTokenOrderSortEnum | `${UserTokenOrderSortEnum}`;
-};
+  order: OrderEnum | `${OrderEnum}`
+  sort: UserTokenOrderSortEnum | `${UserTokenOrderSortEnum}`
+}
 
 enum UserTokenSearchKeyEnum {
   Token = 'TOKEN',
-  Type = 'TYPE'
+  Type = 'TYPE',
 }
 
 type UserTokenSearchArgType = {
-  key: UserTokenSearchKeyEnum | `${UserTokenSearchKeyEnum}`;
-  value: string;
-};
+  key: UserTokenSearchKeyEnum | `${UserTokenSearchKeyEnum}`
+  value: string
+}
 
 export interface UserTokensQueryArgs {
-  filter?: UserTokenFilterArgType | null;
-  limit?: number | null;
-  offset?: number | null;
-  order?: UserTokenOrderArgType | null;
-  search?: UserTokenSearchArgType | null;
+  filter?: UserTokenFilterArgType | null
+  limit?: number | null
+  offset?: number | null
+  order?: UserTokenOrderArgType | null
+  search?: UserTokenSearchArgType | null
 }
 
 enum UserProviderOrderSortEnum {
@@ -59,28 +59,28 @@ enum UserProviderOrderSortEnum {
   OptedIn = 'OPTED_IN',
   ProviderIdentifier = 'PROVIDER_IDENTIFIER',
   ProviderUserIdentifier = 'PROVIDER_USER_IDENTIFIER',
-  UpdatedAt = 'UPDATED_AT'
+  UpdatedAt = 'UPDATED_AT',
 }
 
 type UserProviderOrderArgType = {
-  order: OrderEnum | `${OrderEnum}`;
-  sort: UserProviderOrderSortEnum | `${UserProviderOrderSortEnum}`;
-};
+  order: OrderEnum | `${OrderEnum}`
+  sort: UserProviderOrderSortEnum | `${UserProviderOrderSortEnum}`
+}
 
 enum UserProviderSearchKeyEnum {
   ProviderIdentifier = 'PROVIDER_IDENTIFIER',
-  ProviderUserIdentifier = 'PROVIDER_USER_IDENTIFIER'
+  ProviderUserIdentifier = 'PROVIDER_USER_IDENTIFIER',
 }
 
 type UserProviderSearchArgType = {
-  key: UserProviderSearchKeyEnum | `${UserProviderSearchKeyEnum}`;
-  value: string;
-};
+  key: UserProviderSearchKeyEnum | `${UserProviderSearchKeyEnum}`
+  value: string
+}
 
 export interface UserProvidersQueryArgs {
-  filter?: UserProviderFilterArgType | null;
-  limit?: number | null;
-  offset?: number | null;
-  order?: UserProviderOrderArgType | null;
-  search?: UserProviderSearchArgType | null;
+  filter?: UserProviderFilterArgType | null
+  limit?: number | null
+  offset?: number | null
+  order?: UserProviderOrderArgType | null
+  search?: UserProviderSearchArgType | null
 }

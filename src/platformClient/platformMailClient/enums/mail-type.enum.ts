@@ -1,4 +1,4 @@
-import { registerEnumType } from '@nestjs/graphql';
+import { registerEnumType } from '@nestjs/graphql'
 
 export enum MailTypeEnum {
   CONFIRM_MAIL = 'CONFIRM_MAIL',
@@ -8,4 +8,4 @@ export enum MailTypeEnum {
 
 registerEnumType(MailTypeEnum, {
   name: 'MailTypeEnum',
-});
+})

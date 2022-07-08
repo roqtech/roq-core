@@ -1,8 +1,8 @@
-import { registerEnumType } from '@nestjs/graphql';
+import { registerEnumType } from '@nestjs/graphql'
 
 export enum MailUserGroupOperatorEnum {
   AND = 'AND',
   OR = 'OR',
 }
 
-registerEnumType(MailUserGroupOperatorEnum, { name: 'MailUserGroupOperatorEnum' });
+registerEnumType(MailUserGroupOperatorEnum, { name: 'MailUserGroupOperatorEnum' })

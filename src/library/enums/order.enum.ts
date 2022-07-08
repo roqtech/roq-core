@@ -1,4 +1,4 @@
-import { registerEnumType } from '@nestjs/graphql';
+import { registerEnumType } from '@nestjs/graphql'
 
 export enum OrderEnum {
   ASC = 'ASC',
@@ -7,4 +7,4 @@ export enum OrderEnum {
 
 registerEnumType(OrderEnum, {
   name: 'OrderEnum',
-});
+})

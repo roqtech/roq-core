@@ -1,3 +1,3 @@
 export interface LessThanFilterInterface<T> {
-  lessThan?: T;
+  lessThan?: T
 }

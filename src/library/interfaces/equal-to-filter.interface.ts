@@ -1,3 +1,3 @@
 export interface EqualToFilterInterface<T> {
-  equalTo?: T;
+  equalTo?: T
 }

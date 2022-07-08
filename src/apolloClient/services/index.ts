@@ -1,1 +1,1 @@
-export { ApolloClientService } from './apollo-client.service';
+export { ApolloClientService } from './apollo-client.service'

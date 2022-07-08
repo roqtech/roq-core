@@ -1,1 +1,1 @@
-export { PlatformClientModule } from './platform-client.module';
+export { PlatformClientModule } from './platform-client.module'

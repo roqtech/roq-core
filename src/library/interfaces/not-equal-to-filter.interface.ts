@@ -1,3 +1,3 @@
 export interface NotEqualToFilterInterface<T> {
-  notEqualTo?: T;
+  notEqualTo?: T
 }

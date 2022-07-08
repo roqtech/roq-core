@@ -1,1 +1,1 @@
-export { ApolloClientConfigType } from './apollo-client-config.type';
+export { ApolloClientConfigType } from './apollo-client-config.type'

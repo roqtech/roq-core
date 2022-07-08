@@ -7,7 +7,7 @@ import {
   NotEqualToFilterInterface,
   ValueInFilterInterface,
   ValueNotInFilterInterface,
-} from '../interfaces';
+} from '../interfaces'
 
 export interface NumberFilterInterface
   extends EqualToFilterInterface<number>,

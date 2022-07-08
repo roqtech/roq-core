@@ -1,6 +1,5 @@
-
 export interface CheckUserRestorePasswordToken {
-  isValid: boolean;
-  isExpired?: boolean;
-  email?: string;
+  isValid: boolean
+  isExpired?: boolean
+  email?: string
 }

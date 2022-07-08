@@ -1,1 +1,1 @@
-export { PlatformClientResolver } from './platform-client.resolver';
+export { PlatformClientResolver } from './platform-client.resolver'

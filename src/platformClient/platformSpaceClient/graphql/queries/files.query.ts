@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core';
+import { gql } from '@apollo/client/core'
 
 export const filesQuery = gql`
   query files(
@@ -29,4 +29,4 @@ export const filesQuery = gql`
       }
     }
   }
-`;
+`

@@ -1,18 +1,18 @@
-export type { UserResponseType } from './user-response.type';
-export type { UserTokenResponseType } from './user-token-response.type';
-export type { UserProviderType } from './user-provider.type';
-export type { UserInviteAcceptMutationArgs } from './accept-user-invite.type';
-export type { UserInviteUpdateMutationArgs } from './update-user-invite.type';
-export type { UserCreateMutationArgs } from './create-user.type';
-export type { UserValidateEmailTokenCreateMutationArgs } from './create-user-validate-email-token.type';
-export type { UserTokensQueryArgs, UserProvidersQueryArgs } from './user-token-filter.type';
-export type { UserRefreshTokenCreateMutationArgs } from './create-user-refresh-token.type';
-export type { UserRefreshTokenVerifyMutationArgs } from './verify-user-refresh-token.type';
-export type { UserResetPasswordTokenCreateMutationArgs } from './create-user-reset-password-token.type';
-export type { UserProvidersDeleteMutationArgs } from './delete-user-providers.type';
-export type { UserProviderCreateMutationArgs } from './create-user-provider.type';
-export type { User } from './user.type';
-export type { UserToken } from './user-token.type';
-export type { UserInvite } from './user-invite.type';
-export type { CheckUserInviteToken } from './check-user-invite-token.type';
-export type { CheckUserRestorePasswordToken } from './check-user-restore-password-token.type';
+export type { UserResponseType } from './user-response.type'
+export type { UserTokenResponseType } from './user-token-response.type'
+export type { UserProviderType } from './user-provider.type'
+export type { UserInviteAcceptMutationArgs } from './accept-user-invite.type'
+export type { UserInviteUpdateMutationArgs } from './update-user-invite.type'
+export type { UserCreateMutationArgs } from './create-user.type'
+export type { UserValidateEmailTokenCreateMutationArgs } from './create-user-validate-email-token.type'
+export type { UserTokensQueryArgs, UserProvidersQueryArgs } from './user-token-filter.type'
+export type { UserRefreshTokenCreateMutationArgs } from './create-user-refresh-token.type'
+export type { UserRefreshTokenVerifyMutationArgs } from './verify-user-refresh-token.type'
+export type { UserResetPasswordTokenCreateMutationArgs } from './create-user-reset-password-token.type'
+export type { UserProvidersDeleteMutationArgs } from './delete-user-providers.type'
+export type { UserProviderCreateMutationArgs } from './create-user-provider.type'
+export type { User } from './user.type'
+export type { UserToken } from './user-token.type'
+export type { UserInvite } from './user-invite.type'
+export type { CheckUserInviteToken } from './check-user-invite-token.type'
+export type { CheckUserRestorePasswordToken } from './check-user-restore-password-token.type'

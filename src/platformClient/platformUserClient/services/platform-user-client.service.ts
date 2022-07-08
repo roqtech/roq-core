@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { UserTokenTypeEnum } from 'src/platformClient/platformUserClient/enums';
+import { Injectable } from '@nestjs/common'
+import { UserTokenTypeEnum } from 'src/platformClient/platformUserClient/enums'
 import {
   acceptUserInvitationMutation,
   checkUserInviteTokenQuery,
@@ -19,7 +19,7 @@ import {
   userProvidersQuery,
   userTokenQuery,
   verifyUserRefreshTokenMutation,
-} from 'src/platformClient/platformUserClient/graphql';
+} from 'src/platformClient/platformUserClient/graphql'
 import {
   CheckUserInviteToken,
   CheckUserRestorePasswordToken,
@@ -37,14 +37,12 @@ import {
   UserTokenResponseType,
   UserTokensQueryArgs,
   UserValidateEmailTokenCreateMutationArgs,
-} from 'src/platformClient/platformUserClient/types';
-import { PlatformServiceAccountClientService } from 'src/platformClient/services';
+} from 'src/platformClient/platformUserClient/types'
+import { PlatformServiceAccountClientService } from 'src/platformClient/services'
 
 @Injectable()
 export class PlatformUserClientService {
-  constructor(
-    private readonly platformServiceAccountClientService: PlatformServiceAccountClientService
-    ) {}
+  constructor(private readonly platformServiceAccountClientService: PlatformServiceAccountClientService) {}
 
   async createUser(variables: UserCreateMutationArgs): Promise<UserResponseType> {
     return this.platformServiceAccountClientService.request<UserResponseType>(
@@ -53,7 +51,7 @@ export class PlatformUserClientService {
         variables,
       },
       'createUser',
-    );
+    )
   }
 
   async getUserProviders(userId: string): Promise<{ data: UserProviderType[] }> {
@@ -63,7 +61,7 @@ export class PlatformUserClientService {
         variables: { userId },
       },
       'userProviders',
-    );
+    )
   }
 
   async createUserValidateEmailToken(
@@ -75,7 +73,7 @@ export class PlatformUserClientService {
         variables,
       },
       'createUserValidateEmailToken',
-    );
+    )
   }
 
   async getUserTokens(variables: UserTokensQueryArgs): Promise<{ data: UserTokenResponseType[] }> {
@@ -85,14 +83,14 @@ export class PlatformUserClientService {
         variables,
       },
       'userTokens',
-    );
+    )
   }
 
   async deleteUserToken(userId: string): Promise<void> {
     return this.platformServiceAccountClientService.request<void>({
       mutation: deleteUserTokensMutation,
       variables: { userId },
-    });
+    })
   }
 
   async createUserRefreshToken(variables: UserRefreshTokenCreateMutationArgs): Promise<UserTokenResponseType> {
@@ -102,7 +100,7 @@ export class PlatformUserClientService {
         variables,
       },
       'createUserRefreshToken',
-    );
+    )
   }
 
   async verifyUserRefreshToken(variables: UserRefreshTokenVerifyMutationArgs): Promise<UserTokenResponseType> {
@@ -112,7 +110,7 @@ export class PlatformUserClientService {
         variables,
       },
       'verifyUserRefreshToken',
-    );
+    )
   }
 
   async checkUserInviteToken(token: string): Promise<CheckUserInviteToken> {
@@ -124,7 +122,7 @@ export class PlatformUserClientService {
         },
       },
       'checkUserInviteToken',
-    );
+    )
   }
 
   async acceptUserInvite(variables: UserInviteAcceptMutationArgs): Promise<UserInvite> {
@@ -134,7 +132,7 @@ export class PlatformUserClientService {
         variables,
       },
       'acceptUserInvite',
-    );
+    )
   }
 
   async updateUserInvite(variables: UserInviteUpdateMutationArgs): Promise<UserInvite> {
@@ -144,14 +142,14 @@ export class PlatformUserClientService {
         variables,
       },
       'updateUserInvite',
-    );
+    )
   }
 
   async clearUserRefreshTokens(userId: string): Promise<string[]> {
     const variables = {
       userId,
       type: UserTokenTypeEnum.REFRESH,
-    };
+    }
 
     return this.platformServiceAccountClientService.request<string[]>(
       {
@@ -159,7 +157,7 @@ export class PlatformUserClientService {
         variables,
       },
       'deleteUserTokens',
-    );
+    )
   }
 
   async rotateRefreshToken(token: string): Promise<UserTokenResponseType> {
@@ -169,7 +167,7 @@ export class PlatformUserClientService {
         variables: { token },
       },
       'rotateRefreshToken',
-    );
+    )
   }
 
   async createUserResetPasswordToken(
@@ -181,7 +179,7 @@ export class PlatformUserClientService {
         variables,
       },
       'createUserResetPasswordToken',
-    );
+    )
   }
 
   async getResetPasswordTokens(token: string): Promise<{ data: UserTokenResponseType[] }> {
@@ -193,7 +191,7 @@ export class PlatformUserClientService {
         },
       },
       'userTokens',
-    );
+    )
   }
 
   async checkUserRestorePasswordToken(token: string, type: string): Promise<CheckUserRestorePasswordToken> {
@@ -206,14 +204,14 @@ export class PlatformUserClientService {
         },
       },
       'checkUserToken',
-    );
+    )
   }
 
   async createUserProvider(variables: UserProviderCreateMutationArgs): Promise<{ id }> {
     return this.platformServiceAccountClientService.request({
       mutation: createUserProviderMutation,
       variables,
-    });
+    })
   }
 
   async getUserProvider(
@@ -229,13 +227,13 @@ export class PlatformUserClientService {
         },
       },
       'userProviders',
-    );
+    )
   }
 
   async deleteUserProviders(variables: UserProvidersDeleteMutationArgs): Promise<void> {
     return this.platformServiceAccountClientService.request({
       mutation: deleteUserProvidersMutation,
       variables,
-    });
+    })
   }
 }

@@ -1,16 +1,16 @@
-import { Field, ID, InputType } from '@nestjs/graphql';
+import { Field, ID, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class IdFilterArgType {
   @Field(() => ID, { nullable: true })
-  equalTo?: string;
+  equalTo?: string
 
   @Field(() => ID, { nullable: true })
-  notEqualTo?: string;
+  notEqualTo?: string
 
   @Field(() => [ID], { nullable: true })
-  valueNotIn?: string[];
+  valueNotIn?: string[]
 
   @Field(() => [ID], { nullable: true })
-  valueIn?: string[];
+  valueIn?: string[]
 }

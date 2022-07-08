@@ -1,5 +1,5 @@
 export class ApolloClientConfigType {
-  host: string;
-  endpoint?: string;
-  headers?: Record<string, unknown>;
+  host: string
+  endpoint?: string
+  headers?: Record<string, unknown>
 }

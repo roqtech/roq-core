@@ -1,7 +1,7 @@
-import { LoggingTypeEnum } from '../enums';
-import { GraphqlRequestLogInterface } from '../interfaces';
+import { LoggingTypeEnum } from '../enums'
+import { GraphqlRequestLogInterface } from '../interfaces'
 
 export interface IncomingMutationLogInterface {
-  type: LoggingTypeEnum.incomingMutation;
-  request: GraphqlRequestLogInterface;
+  type: LoggingTypeEnum.incomingMutation
+  request: GraphqlRequestLogInterface
 }

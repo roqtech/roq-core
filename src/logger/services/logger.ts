@@ -1,5 +1,5 @@
 // eslint-disable-next-line @roq/filename-suffix-mismatch
-import { Logger as BaseLogger } from '@nestjs/common';
+import { Logger as BaseLogger } from '@nestjs/common'
 import {
   DebugLogInterface,
   ErrorLogInterface,
@@ -22,8 +22,8 @@ import {
   OutgoingQueryResponseLogInterface,
   OutgoingRequestErrorLogInterface,
   OutgoingRequestLogInterface,
-  OutgoingRequestResponseLogInterface
-} from '../interfaces';
+  OutgoingRequestResponseLogInterface,
+} from '../interfaces'
 
 export class Logger extends BaseLogger {
   log(
@@ -48,7 +48,7 @@ export class Logger extends BaseLogger {
       | string,
     context?: string,
   ): void {
-    super.log(message, context);
+    super.log(message, context)
   }
   error(
     message:
@@ -60,6 +60,6 @@ export class Logger extends BaseLogger {
     stack?: string,
     context?: string,
   ): void {
-    super.error(message, stack, context);
+    super.error(message, stack, context)
   }
 }

@@ -1,1 +1,1 @@
-export { ParseUUIDStringPipe } from './parse-uuid-string.pipe';
+export { ParseUUIDStringPipe } from './parse-uuid-string.pipe'

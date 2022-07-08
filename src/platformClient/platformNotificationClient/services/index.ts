@@ -1,1 +1,1 @@
-export { PlatformNotificationClientService } from 'src/platformClient/platformNotificationClient/services/platform-notification-client.service';
+export { PlatformNotificationClientService } from 'src/platformClient/platformNotificationClient/services/platform-notification-client.service'

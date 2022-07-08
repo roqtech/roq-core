@@ -1,6 +1,6 @@
 export interface MailNonUser {
-  email: string;
-  locale: string;
-  firstName: string;
-  lastName: string;
+  email: string
+  locale: string
+  firstName: string
+  lastName: string
 }

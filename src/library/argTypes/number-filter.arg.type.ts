@@ -1,28 +1,28 @@
-import { Field, Float, InputType } from '@nestjs/graphql';
+import { Field, Float, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class NumberFilterArgType {
   @Field(() => Float, { nullable: true })
-  equalTo?: number;
+  equalTo?: number
 
   @Field(() => Float, { nullable: true })
-  notEqualTo?: number;
+  notEqualTo?: number
 
   @Field(() => Float, { nullable: true })
-  moreThan?: number;
+  moreThan?: number
 
   @Field(() => Float, { nullable: true })
-  lessThan?: number;
+  lessThan?: number
 
   @Field(() => Float, { nullable: true })
-  moreThanEqual?: number;
+  moreThanEqual?: number
 
   @Field(() => Float, { nullable: true })
-  lessThanEqual?: number;
+  lessThanEqual?: number
 
   @Field(() => [Float], { nullable: true })
-  valueNotIn?: number[];
+  valueNotIn?: number[]
 
   @Field(() => [Float], { nullable: true })
-  valueIn?: number[];
+  valueIn?: number[]
 }

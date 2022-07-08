@@ -1,1 +1,1 @@
-export { prepareError } from './prepare-error.util';
+export { prepareError } from './prepare-error.util'

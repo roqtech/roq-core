@@ -1,12 +1,12 @@
-import { gql } from '@apollo/client/core';
-import { Query, Resolver } from '@nestjs/graphql';
-import { PlatformClientService, PlatformHttpClientService } from '../services';
+import { gql } from '@apollo/client/core'
+import { Query, Resolver } from '@nestjs/graphql'
+import { PlatformClientService, PlatformHttpClientService } from '../services'
 
 @Resolver()
 export class PlatformClientResolver {
   constructor(
     private readonly platformHttpClientService: PlatformHttpClientService,
-    private readonly platformClientService: PlatformClientService
+    private readonly platformClientService: PlatformClientService,
   ) {}
 
   @Query(() => String)
@@ -20,8 +20,8 @@ export class PlatformClientResolver {
         `,
       },
       'mailHealthCheck',
-    );
-    return JSON.stringify(response);
+    )
+    return JSON.stringify(response)
   }
 
   @Query(() => String)
@@ -35,9 +35,9 @@ export class PlatformClientResolver {
         `,
       },
       'searchHealthCheck',
-    );
+    )
 
-    return JSON.stringify(response);
+    return JSON.stringify(response)
   }
 
   @Query(() => String)
@@ -51,9 +51,9 @@ export class PlatformClientResolver {
         `,
       },
       'spaceHealthCheck',
-    );
+    )
 
-    return JSON.stringify(response);
+    return JSON.stringify(response)
   }
 
   @Query(() => String)
@@ -67,9 +67,9 @@ export class PlatformClientResolver {
         `,
       },
       'notificationHealthCheck',
-    );
+    )
 
-    return JSON.stringify(response);
+    return JSON.stringify(response)
   }
 
   @Query(() => String)
@@ -83,9 +83,9 @@ export class PlatformClientResolver {
         `,
       },
       'workflowHealthCheck',
-    );
+    )
 
-    return JSON.stringify(response);
+    return JSON.stringify(response)
   }
 
   @Query(() => String)
@@ -99,9 +99,9 @@ export class PlatformClientResolver {
         `,
       },
       'userHealthCheck',
-    );
+    )
 
-    return JSON.stringify(response);
+    return JSON.stringify(response)
   }
 
   @Query(() => String)
@@ -115,8 +115,8 @@ export class PlatformClientResolver {
         `,
       },
       'dataHealthCheck',
-    );
-    return JSON.stringify(response);
+    )
+    return JSON.stringify(response)
   }
 
   @Query(() => String)
@@ -130,9 +130,9 @@ export class PlatformClientResolver {
         `,
       },
       'contentHealthCheck',
-    );
+    )
 
-    return JSON.stringify(response);
+    return JSON.stringify(response)
   }
 
   @Query(() => String)
@@ -146,8 +146,8 @@ export class PlatformClientResolver {
         `,
       },
       'chatHealthCheck',
-    );
+    )
 
-    return JSON.stringify(response);
+    return JSON.stringify(response)
   }
 }
