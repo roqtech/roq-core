@@ -1,5 +1,5 @@
 import { Format } from 'logform'
-import { LoggingTypeEnum } from 'src/logger/enums'
+import { LoggingTypeEnum } from '../enums'
 import * as winston from 'winston'
 
 export const messageFormat = (): Format =>

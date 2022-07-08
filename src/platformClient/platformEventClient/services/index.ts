@@ -1,1 +1,1 @@
-export { PlatformEventClientService } from 'src/platformClient/platformEventClient/services/platform-event-client.service'
+export { PlatformEventClientService } from './platform-event-client.service'

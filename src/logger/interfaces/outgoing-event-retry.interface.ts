@@ -1,5 +1,5 @@
-import { EventInterface } from 'src/logger/interfaces'
-import { LoggingTypeEnum } from 'src/logger/enums'
+import { EventInterface } from '../interfaces'
+import { LoggingTypeEnum } from '../enums'
 
 export interface OutgoingEventRetryInterface {
   type: LoggingTypeEnum.outgoingEventRetry

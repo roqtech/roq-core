@@ -1,1 +1,1 @@
-export { TriggerEventMutationArgs } from 'src/platformClient/platformEventClient/types/trigger-event.type'
+export { TriggerEventMutationArgs } from './trigger-event.type'

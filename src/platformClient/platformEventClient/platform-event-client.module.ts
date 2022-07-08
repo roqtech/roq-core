@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
-import { PlatformClientModule } from 'src/platformClient'
-import { PlatformEventClientService } from 'src/platformClient/platformEventClient/services'
+import { PlatformClientModule } from '../platform-client.module'
+import { PlatformEventClientService } from '../platformEventClient/services'
 
 @Module({
   imports: [PlatformClientModule],

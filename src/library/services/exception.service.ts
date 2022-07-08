@@ -1,8 +1,8 @@
 import { HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { GraphQLError, GraphQLFormattedError } from 'graphql'
-import { ErrorCodeEnum } from 'src/library/enums'
-import { ExceptionPayload } from 'src/library/interfaces'
-import { JsonObject } from 'src/library/scalars'
+import { ErrorCodeEnum } from '../enums'
+import { ExceptionPayload } from '../interfaces'
+import { JsonObject } from '../scalars'
 
 @Injectable()
 export class ExceptionService {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { sendMailMutation } from 'src/platformClient/platformMailClient/mutations'
-import { MailSendDto } from 'src/platformClient/platformMailClient/types'
-import { PlatformServiceAccountClientService } from 'src/platformClient/services'
+import { sendMailMutation } from '../mutations'
+import { MailSendDto } from '../types'
+import { PlatformServiceAccountClientService } from '../../services'
 
 @Injectable()
 export class PlatformMailClientService {
