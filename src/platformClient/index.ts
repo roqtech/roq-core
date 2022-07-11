@@ -1,1 +1,6 @@
 export { PlatformClientModule } from './platform-client.module'
+export * from './platformEventClient'
+export * from './platformMailClient'
+export * from './platformNotificationClient'
+export * from './platformSpaceClient'
+export * from './platformUserClient'
