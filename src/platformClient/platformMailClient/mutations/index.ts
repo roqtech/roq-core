@@ -1,1 +1,1 @@
-export { sendMailMutation } from './send-mail.mutation'
+export { sendMailMutation } from 'src/platformClient/platformMailClient/mutations/send-mail.mutation';

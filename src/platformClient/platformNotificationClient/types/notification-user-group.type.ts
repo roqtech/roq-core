@@ -1,6 +1,6 @@
-import { NotificationUserGroupOperatorEnum } from '../enums'
+import { NotificationUserGroupOperatorEnum } from 'src/platformClient/platformNotificationClient/enums';
 
 export interface NotificationUserGroup {
-  userGroupIds: string[]
-  operator: NotificationUserGroupOperatorEnum
+  userGroupIds: string[];
+  operator: NotificationUserGroupOperatorEnum;
 }

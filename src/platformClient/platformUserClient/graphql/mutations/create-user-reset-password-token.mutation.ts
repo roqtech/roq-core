@@ -1,10 +1,10 @@
-import { gql } from '@apollo/client/core'
+import { gql } from 'apollo-server-express';
 
 export const createUserResetPasswordTokenMutation = gql`
-  mutation createUserResetPasswordToken($userToken: UserResetPasswordTokenCreateDto!) {
-    createUserResetPasswordToken(userToken: $userToken) {
-      id
-      token
-    }
+mutation createUserResetPasswordToken($userToken: UserResetPasswordTokenCreateDto!) {
+  createUserResetPasswordToken(userToken: $userToken) {
+    id
+    token
   }
-`
+}
+`;

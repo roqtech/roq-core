@@ -1,13 +1,13 @@
-import { registerEnumType } from '@nestjs/graphql'
+import { registerEnumType } from '@nestjs/graphql';
 
 export enum FileOrderSortEnum {
-  CREATED_AT = 'CREATED_AT',
-  UPDATED_AT = 'UPDATED_AT',
-  NAME = 'NAME',
-  STATUS = 'STATUS',
-  CONTENT_TYPE = 'CONTENT_TYPE',
+  createdAt = 'createdAt',
+  updatedAt = 'updatedAt',
+  name = 'name',
+  status = 'status',
+  content_type = 'content_type',
 }
 
 registerEnumType(FileOrderSortEnum, {
   name: 'FileOrderSortEnum',
-})
+});

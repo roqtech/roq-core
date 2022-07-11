@@ -1,2 +1,2 @@
-export { createFileUploadUrlMutation } from './create-file-upload-url.mutation'
-export { updateFileStatusMutation } from './update-file-status.mutation'
+export { createFileUploadUrlMutation } from 'src/platformClient/platformSpaceClient/graphql/mutations/create-file-upload-url.mutation';
+export { updateFileStatusMutation } from 'src/platformClient/platformSpaceClient/graphql/mutations/update-file-status.mutation';

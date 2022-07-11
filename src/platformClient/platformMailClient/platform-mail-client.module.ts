@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common'
-import { PlatformClientModule } from '../platform-client.module'
-import { PlatformMailClientService } from '../platformMailClient/services'
+import { Module } from '@nestjs/common';
+import { PlatformClientModule } from 'src/platformClient';
+import { PlatformMailClientService } from 'src/platformClient/platformMailClient/services';
 
 @Module({
   imports: [PlatformClientModule],

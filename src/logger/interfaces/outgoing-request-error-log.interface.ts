@@ -1,10 +1,10 @@
-import { LoggingTypeEnum } from '../enums'
-import { HttpRequestLogInterface } from '../interfaces'
+import { LoggingTypeEnum } from 'src/logger/enums';
+import { HttpRequestLogInterface } from 'src/logger/interfaces';
 
 export interface OutgoingRequestErrorLogInterface {
-  type: LoggingTypeEnum.outgoingRequestError
-  request: HttpRequestLogInterface
+  type: LoggingTypeEnum.outgoingRequestError;
+  request: HttpRequestLogInterface;
   response: {
-    data: unknown
-  }
+    data: unknown;
+  };
 }

@@ -1,8 +1,8 @@
-import { NotificationUserGroup } from './notification-user-group.type'
+import { NotificationUserGroup } from 'src/platformClient/platformNotificationClient/types';
 
 export interface NotificationRecipient {
-  userIds?: string[]
-  userGroups?: NotificationUserGroup
-  excludedUserIds?: string[]
-  allUsers: boolean
+  userIds?: string[];
+  userGroups?: NotificationUserGroup;
+  excludedUserIds?: string[];
+  allUsers: boolean;
 }

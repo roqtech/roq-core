@@ -1,1 +1,1 @@
-export { ApolloClientModule } from './apollo-client.module'
+export { ApolloClientModule } from 'src/apolloClient/apollo-client.module';

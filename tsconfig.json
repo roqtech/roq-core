@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "declaration": true,
+    "sourceMap": false,
     "baseUrl": ".",
     "module": "commonjs",
     "outDir": "./dist",

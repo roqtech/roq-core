@@ -1,13 +1,9 @@
-import { CacheModule, Module } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { ApolloClientModule } from '../apolloClient'
-import { Logger } from '../logger/services'
-import { PlatformClientResolver } from '../platformClient/resolvers'
-import {
-  PlatformClientService,
-  PlatformHttpClientService,
-  PlatformServiceAccountClientService,
-} from '../platformClient/services'
+import { CacheModule, Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { ApolloClientModule } from 'src/apolloClient';
+import { Logger } from 'src/logger/services';
+import { PlatformClientResolver } from 'src/platformClient/resolvers';
+import { PlatformClientService, PlatformHttpClientService, PlatformServiceAccountClientService } from 'src/platformClient/services';
 
 @Module({
   imports: [
@@ -15,7 +11,7 @@ import {
       useFactory: (configService: ConfigService) => ({
         host: configService.get('application.platform.host'),
         endpoint: configService.get('application.platform.apiUri'),
-        headers: {},
+        headers: {}
       }),
       imports: [],
       inject: [ConfigService],
@@ -28,11 +24,8 @@ import {
     }),
   ],
   providers: [
-    PlatformClientService,
-    PlatformHttpClientService,
-    PlatformClientResolver,
-    Logger,
-    PlatformServiceAccountClientService,
+    PlatformClientService, PlatformHttpClientService, PlatformClientResolver, Logger,
+    PlatformServiceAccountClientService
   ],
   exports: [PlatformClientService, PlatformHttpClientService, PlatformServiceAccountClientService],
   controllers: [],

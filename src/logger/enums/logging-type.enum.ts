@@ -22,5 +22,5 @@ export enum LoggingTypeEnum {
   incomingEventResponse = 'incoming-event-response',
   eventSubscriber = 'event-subscriber',
   eventSubscriberError = 'event-subscriber-error',
-  eventSubscriberResponse = 'event-subscriber-response',
+  eventSubscriberResponse = 'event-subscriber-response'
 }

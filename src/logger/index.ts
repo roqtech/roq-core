@@ -1,6 +1,3 @@
-export { LoggerExceptionFilter } from './filters'
-export { GoogleCloudTransport } from './transports'
-export { createLogger } from './utilities'
-export { Logger } from './services'
-export { LoggerInterceptor } from './interceptors'
-export { LoggingTypeEnum, EventNameEnum } from './enums'
+export { LoggerExceptionFilter } from 'src/logger/filters';
+export { GoogleCloudTransport } from 'src/logger/transports';
+export { createLogger } from 'src/logger/utilities';

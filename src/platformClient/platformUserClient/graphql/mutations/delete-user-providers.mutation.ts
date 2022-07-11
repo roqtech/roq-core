@@ -1,7 +1,7 @@
-import { gql } from '@apollo/client/core'
+import { gql } from 'apollo-server-express';
 
 export const deleteUserProvidersMutation = gql`
-  mutation deleteUserProviders($filter: UserProviderBulkFilterArgType!) {
+mutation deleteUserProviders($filter: UserProviderBulkFilterArgType!) {
     deleteUserProviders(filter: $filter)
-  }
-`
+}
+`;

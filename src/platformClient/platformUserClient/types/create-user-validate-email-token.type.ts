@@ -1,5 +1,6 @@
+
 export interface UserValidateEmailTokenCreateMutationArgs {
   userToken: {
-    userId: string
-  }
+    userId: string;
+  };
 }

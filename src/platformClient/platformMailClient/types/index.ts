@@ -1,5 +1,5 @@
-export { MailUserGroup } from './mail-user-group.type'
-export { MailNonUser } from './mail-non-user.type'
-export { MailEntity } from './mail-entity.type'
-export { MailRecipient } from './mail-recipient.type'
-export { MailSendDto } from './mail-send-dto.type'
+export { MailUserGroup } from 'src/platformClient/platformMailClient/types/mail-user-group.type';
+export { MailNonUser } from 'src/platformClient/platformMailClient/types/mail-non-user.type';
+export { MailEntity } from 'src/platformClient/platformMailClient/types/mail-entity.type';
+export { MailRecipient } from 'src/platformClient/platformMailClient/types/mail-recipient.type';
+export { MailSendDto } from 'src/platformClient/platformMailClient/types/mail-send-dto.type';

@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common'
-import { triggerEventMutation } from '../graphql/mutation'
-import { TriggerEventMutationArgs } from '../types'
-import { PlatformServiceAccountClientService } from '../../services'
+import { Injectable } from '@nestjs/common';
+import { triggerEventMutation } from 'src/platformClient/platformEventClient/graphql/mutation';
+import { TriggerEventMutationArgs } from 'src/platformClient/platformEventClient/types';
+import { PlatformServiceAccountClientService } from 'src/platformClient/services';
 
 @Injectable()
 export class PlatformEventClientService {
@@ -16,6 +16,6 @@ export class PlatformEventClientService {
         },
       },
       'triggerEvent',
-    )
+    );
   }
 }

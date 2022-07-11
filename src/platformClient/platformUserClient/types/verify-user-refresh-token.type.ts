@@ -1,5 +1,6 @@
+
 export interface UserRefreshTokenVerifyMutationArgs {
   userToken: {
-    token: string
-  }
+    token: string;
+  };
 }

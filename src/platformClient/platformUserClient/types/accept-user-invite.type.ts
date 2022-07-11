@@ -1,5 +1,6 @@
+
 export interface UserInviteAcceptMutationArgs {
   acceptUserInvite: {
-    token: string
-  }
+    token: string;
+  };
 }

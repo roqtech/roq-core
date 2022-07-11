@@ -1,6 +1,1 @@
-export { PlatformClientModule } from './platform-client.module'
-export { PlatformEventClientModule } from './platformEventClient'
-export { PlatformMailClientModule } from './platformMailClient'
-export { PlatformNotificationClientModule } from './platformNotificationClient'
-export { PlatformSpaceClientModule, PlatformSpaceClientService } from './platformSpaceClient'
-export { PlatformUserClientModule } from './platformUserClient'
+export { PlatformClientModule } from 'src/platformClient/platform-client.module';

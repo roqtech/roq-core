@@ -1,13 +1,13 @@
-import { NotificationRecipient } from './notification-recipient.type'
+import { NotificationRecipient } from 'src/platformClient/platformNotificationClient/types';
 
 type NotificationEntitiesCreateArgType = {
-  uuid: string
-  type: string
-  alias?: string
-}
+  uuid: string;
+  type: string;
+  alias?: string;
+};
 
 export interface NotificationCreateMutationArgs {
-  key: string
-  entities?: NotificationEntitiesCreateArgType[]
-  recipients: NotificationRecipient
+  key: string;
+  entities?: NotificationEntitiesCreateArgType[];
+  recipients: NotificationRecipient;
 }

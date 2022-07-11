@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common'
-import { Logger } from '../../logger'
-import { PlatformClientModule } from '../platform-client.module'
-import { PlatformSpaceClientService } from '../platformSpaceClient'
+import { Module } from '@nestjs/common';
+import { Logger } from 'src/logger/services';
+import { PlatformClientModule } from 'src/platformClient';
+import { PlatformSpaceClientService } from 'src/platformClient/platformSpaceClient/services';
 
 @Module({
   imports: [PlatformClientModule],

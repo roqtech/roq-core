@@ -1,26 +1,27 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
-import { ErrorCodeEnum, InvalidContentTypeForFileCategoryException } from '../../../library'
-import { FileStatusEnum } from '../enums'
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { ErrorCodeEnum } from 'src/library/enums';
+import { InvalidContentTypeForFileCategoryException } from 'src/library/exception';
+import { FileStatusEnum } from 'src/platformClient/platformSpaceClient/enums';
 import {
   createFileUploadUrlMutation,
   fileQuery,
   filesQuery,
   updateFileStatusMutation,
-} from '../graphql'
-import { FileCreateParamsType, FileResponseType, GetFilesArgsType } from '../types'
-import { PlatformClientService } from '../../services'
-import { ExceptionMappingType } from '../../types'
+} from 'src/platformClient/platformSpaceClient/graphql';
+import { FileCreateParamsType, FileResponseType, GetFilesArgsType } from 'src/platformClient/platformSpaceClient/types';
+import { PlatformClientService } from 'src/platformClient/services';
+import { ExceptionMappingType } from 'src/platformClient/types';
 
 @Injectable()
 export class PlatformSpaceClientService {
   private static exceptionMapping: ExceptionMappingType = {
     [ErrorCodeEnum.INVALID_CONTENT_TYPE_FOR_FILE_CATEGORY]: InvalidContentTypeForFileCategoryException,
-  }
+  };
 
-  constructor(private readonly platformClientService: PlatformClientService) {}
+  constructor(private readonly platformClientService: PlatformClientService) { }
 
   private static parseException(e): BadRequestException {
-    return PlatformClientService.parseException(e, PlatformSpaceClientService.exceptionMapping)
+    return PlatformClientService.parseException(e, PlatformSpaceClientService.exceptionMapping);
   }
 
   async createFile({
@@ -36,7 +37,7 @@ export class PlatformSpaceClientService {
       fileCategory,
       customMetaData,
       fileAssociationOptions,
-    }
+    };
 
     try {
       return await this.platformClientService.request<FileResponseType>(
@@ -45,9 +46,9 @@ export class PlatformSpaceClientService {
           variables,
         },
         'createFileUploadUrl',
-      )
+      );
     } catch (e) {
-      throw PlatformSpaceClientService.parseException(e)
+      throw PlatformSpaceClientService.parseException(e);
     }
   }
 
@@ -55,7 +56,7 @@ export class PlatformSpaceClientService {
     const variables = {
       fileId,
       status,
-    }
+    };
     try {
       return await this.platformClientService.request<FileResponseType>(
         {
@@ -63,14 +64,14 @@ export class PlatformSpaceClientService {
           variables,
         },
         'updateFileStatus',
-      )
+      );
     } catch (e) {
-      throw PlatformSpaceClientService.parseException(e)
+      throw PlatformSpaceClientService.parseException(e);
     }
   }
 
   async getFile(fileId: string): Promise<FileResponseType> {
-    const variables = { fileId }
+    const variables = { fileId };
     try {
       return await this.platformClientService.request<FileResponseType>(
         {
@@ -78,9 +79,9 @@ export class PlatformSpaceClientService {
           variables,
         },
         'file',
-      )
+      );
     } catch (e) {
-      throw PlatformSpaceClientService.parseException(e)
+      throw PlatformSpaceClientService.parseException(e);
     }
   }
 
@@ -92,11 +93,11 @@ export class PlatformSpaceClientService {
           variables: args,
         },
         'files',
-      )
+      );
 
-      return fileModel?.data
+      return fileModel?.data;
     } catch (e) {
-      throw PlatformSpaceClientService.parseException(e)
+      throw PlatformSpaceClientService.parseException(e);
     }
   }
 }

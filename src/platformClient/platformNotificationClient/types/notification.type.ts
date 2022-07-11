@@ -1,5 +1,5 @@
-import { NotificationWeb } from './notification-web.type'
+import { NotificationWeb } from 'src/platformClient/platformNotificationClient/types';
 
 export interface Notification {
-  webNotifications?: NotificationWeb[]
+  webNotifications?: NotificationWeb[];
 }

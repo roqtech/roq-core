@@ -1,6 +1,7 @@
+
 export interface UserRefreshTokenCreateMutationArgs {
   userToken: {
-    keepLoggedIn?: boolean
-    userId: string
-  }
+    keepLoggedIn?: boolean;
+    userId: string;
+  };
 }

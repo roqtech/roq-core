@@ -1,6 +1,6 @@
 {
   "name": "@roq/core",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Roq core package",
   "main": "dist/src/index.js",
   "files": [
@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "tsc",
+    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "format": "prettier --write \"src/**/*.ts\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -44,6 +44,7 @@
     "logform": "^2.4.2",
     "nest-winston": "^1.6.2",
     "nestjs-cls": "^2.1.1",
+    "tsc-alias": "^1.6.11",
     "winston": "^3.8.1"
   },
   "devDependencies": {

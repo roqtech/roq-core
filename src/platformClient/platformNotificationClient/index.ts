@@ -1,1 +1,1 @@
-export { PlatformNotificationClientModule } from './platform-notification-client.module'
+export { PlatformNotificationClientModule } from 'src/platformClient/platformNotificationClient/platform-notification-client.module';

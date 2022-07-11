@@ -1,5 +1,5 @@
-import { GraphQLError } from 'graphql'
+import { GraphQLError } from 'graphql';
 
 export type GraphqlExceptionType = {
-  graphQLErrors?: GraphQLError[]
-} & GraphQLError
+  graphQLErrors?: GraphQLError[];
+} & GraphQLError;

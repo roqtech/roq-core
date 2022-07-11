@@ -1,1 +1,1 @@
-export { createNotificationMutation } from './mutations'
+export { createNotificationMutation } from 'src/platformClient/platformNotificationClient/graphql/mutations';

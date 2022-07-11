@@ -1,3 +1,1 @@
-export { PlatformEventClientModule } from './platform-event-client.module'
-export { PlatformEventClientService } from './services'
-export { TriggerEventMutationArgs } from './types'
+export { PlatformEventClientModule } from 'src/platformClient/platformEventClient/platform-event-client.module';

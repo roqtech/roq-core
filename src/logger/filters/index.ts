@@ -1,1 +1,1 @@
-export { LoggerExceptionFilter } from './logger-exception.filter'
+export { LoggerExceptionFilter } from 'src/logger/filters/logger-exception.filter';
