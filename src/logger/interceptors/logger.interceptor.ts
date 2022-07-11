@@ -2,7 +2,7 @@ import { gql } from '@apollo/client/core'
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql'
-import { ClsService } from 'nestjs-cls'
+import { ClsServiceManager } from 'nestjs-cls'
 import { Observable, tap } from 'rxjs'
 import { ClsKeyEnum } from '../../library/enums'
 import { LoggingTypeEnum } from '../enums'
@@ -12,7 +12,6 @@ import { getGqlOperationName } from '../utilities'
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
   constructor(
-    private readonly cls: ClsService,
     private readonly logger: Logger,
     private configService: ConfigService,
   ) {}
@@ -54,7 +53,8 @@ export class LoggerInterceptor implements NestInterceptor {
       if (context.getType<GqlContextType>() === 'graphql') {
         const ctx = GqlExecutionContext.create(context)
         const res = ctx.getContext().res
-        res.header(this.configService.get('application.platform.requestIdHeader'), this.cls.get(ClsKeyEnum.REQUEST_ID))
+        const cls = ClsServiceManager.getClsService();
+        res.header(this.configService.get('application.platform.requestIdHeader'), cls.get(ClsKeyEnum.REQUEST_ID))
       }
     }
     return next.handle().pipe(tap(processResponse, processResponse))
