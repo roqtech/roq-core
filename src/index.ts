@@ -2,13 +2,12 @@ export { ApolloClientModule } from './apolloClient'
 export {
   PlatformClientModule,
   PlatformEventClientModule,
-  PlatformEventClientService,
   PlatformMailClientModule,
   PlatformNotificationClientModule,
   PlatformSpaceClientModule,
   PlatformUserClientModule,
-  TriggerEventMutationArgs,
-  UserTokenTypeEnum,
+  PlatformSpaceClientService,
 } from './platformClient'
-export { GoogleCloudTransport, LoggerExceptionFilter, createLogger, Logger, LoggerInterceptor } from './logger'
-export { LibraryModule, ExceptionService, UtilityService, getEnvVars, protectedVars, queryDepthValidation } from './library'
+export { GoogleCloudTransport, LoggerExceptionFilter, createLogger, Logger, LoggerInterceptor, EventNameEnum, LoggingTypeEnum } from './logger'
+export { LibraryModule, ExceptionService, UtilityService, getEnvVars, protectedVars, queryDepthValidation, RequestShareInterceptor } from './library'
+

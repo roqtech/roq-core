@@ -1,4 +1,4 @@
-import { NotificationWeb } from 'src/platformClient/platformNotificationClient/types'
+import { NotificationWeb } from './notification-web.type'
 
 export interface Notification {
   webNotifications?: NotificationWeb[]

@@ -1,16 +1,15 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { ErrorCodeEnum } from 'src/library/enums'
-import { InvalidContentTypeForFileCategoryException } from 'src/library/exception'
-import { FileStatusEnum } from 'src/platformClient/platformSpaceClient/enums'
+import { ErrorCodeEnum, InvalidContentTypeForFileCategoryException } from '../../../library'
+import { FileStatusEnum } from '../enums'
 import {
   createFileUploadUrlMutation,
   fileQuery,
   filesQuery,
   updateFileStatusMutation,
-} from 'src/platformClient/platformSpaceClient/graphql'
-import { FileCreateParamsType, FileResponseType, GetFilesArgsType } from 'src/platformClient/platformSpaceClient/types'
-import { PlatformClientService } from 'src/platformClient/services'
-import { ExceptionMappingType } from 'src/platformClient/types'
+} from '../graphql'
+import { FileCreateParamsType, FileResponseType, GetFilesArgsType } from '../types'
+import { PlatformClientService } from '../../services'
+import { ExceptionMappingType } from '../../types'
 
 @Injectable()
 export class PlatformSpaceClientService {

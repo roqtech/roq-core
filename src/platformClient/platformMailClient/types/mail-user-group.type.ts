@@ -1,4 +1,4 @@
-import { MailUserGroupOperatorEnum } from 'src/platformClient/platformMailClient/enums'
+import { MailUserGroupOperatorEnum } from '../enums'
 
 export interface MailUserGroup {
   userGroupIds: string[]

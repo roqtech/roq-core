@@ -1,10 +1,18 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
-    "outDir": "./dist",
-    "rootDir": ".",
-    "target": "es2017",
     "baseUrl": ".",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "paths": {
+      "src/*": [
+        "src/*"
+      ],
+      "tests/*": [
+        "test/*"
+      ]
+    },
+    "rootDir": ".",
+    "target": "es2017"
   },
   "extends": "./tsconfig.base.json",
   "exclude": [

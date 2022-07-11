@@ -1,4 +1,5 @@
-import { MailNonUser, MailUserGroup } from 'src/platformClient/platformMailClient/types'
+import { MailNonUser } from './mail-non-user.type'
+import { MailUserGroup } from './mail-user-group.type'
 
 export interface MailRecipient {
   userIds?: string[]

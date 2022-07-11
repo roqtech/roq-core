@@ -1,4 +1,4 @@
-import { BooleanFilterArgType, DateFilterArgType, IdFilterArgType, StringFilterArgType } from 'src/platformClient/types'
+import { BooleanFilterArgType, DateFilterArgType, IdFilterArgType, StringFilterArgType } from '../../types'
 /* eslint-disable @typescript-eslint/naming-convention */
 
 type UserTokenFilterArgType = {

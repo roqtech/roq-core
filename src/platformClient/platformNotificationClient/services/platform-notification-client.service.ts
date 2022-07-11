@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { createNotificationMutation } from 'src/platformClient/platformNotificationClient/graphql'
-import { Notification, NotificationCreateMutationArgs } from 'src/platformClient/platformNotificationClient/types'
-import { PlatformServiceAccountClientService } from 'src/platformClient/services'
+import { createNotificationMutation } from '../graphql/mutations'
+import { Notification, NotificationCreateMutationArgs } from '../types'
+import { PlatformServiceAccountClientService } from '../../services'
 
 @Injectable()
 export class PlatformNotificationClientService {

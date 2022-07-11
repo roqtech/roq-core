@@ -1,6 +1,6 @@
 // eslint-disable-next-line @roq/filename-suffix-mismatch
 import { isObject } from 'lodash';
-import { protectedVars } from 'src/library/utilities';
+import { protectedVars } from './protected-vars.util';
 
 const filterVariables = (env: NodeJS.ProcessEnv) => {
   if (!isObject(env)) {

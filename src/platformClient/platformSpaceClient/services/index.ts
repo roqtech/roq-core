@@ -1,1 +1,1 @@
-export { PlatformSpaceClientService } from 'src/platformClient/platformSpaceClient/services/platform-space-client.service'
+export { PlatformSpaceClientService } from './platform-space-client.service'

@@ -1,5 +1,5 @@
-import { FileStatusEnum } from 'src/platformClient/platformSpaceClient/enums'
-import { FileAssociationType } from 'src/platformClient/platformSpaceClient/types'
+import { FileStatusEnum } from '../enums'
+import { FileAssociationType } from './file-association.type'
 
 export type FileResponseType = {
   id: string
