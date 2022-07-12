@@ -1,7 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
-import { IsArray } from 'class-validator';
-import { ValidateNested } from '@roq/class-validator';
+import { ValidateNested, IsArray } from '@roq/class-validator';
 import { UserInviteCreateDto } from 'src/platformClient/dtos';
 
 @InputType()

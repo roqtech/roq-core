@@ -1,5 +1,5 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
-import { ArrayNotEmpty, IsUUID } from 'class-validator';
+import { ArrayNotEmpty, IsUUID } from '@roq/class-validator';
 
 @InputType()
 export class IdBulkFilterArgType {

@@ -6,7 +6,7 @@ import {
   NotificationTypeCategoryFilterArgType,
   NotificationTypeCategoryOrderArgType,
   NotificationTypeCategorySearchArgType,
-} from './index';
+} from 'src/platformClient/dtos';
 
 @ArgsType()
 export class NotificationTypeCategoryArgType extends BaseArgType {

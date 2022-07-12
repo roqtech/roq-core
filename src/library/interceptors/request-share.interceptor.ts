@@ -1,14 +1,14 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { ClsService } from 'nestjs-cls';
+import { ClsServiceManager } from 'nestjs-cls';
 import { Observable } from 'rxjs';
 import { ClsKeyEnum } from 'src/library/enums';
 import { v4 } from 'uuid';
 
 @Injectable()
 export class RequestShareInterceptor implements NestInterceptor {
-  constructor(private readonly cls: ClsService, private configService: ConfigService) {}
+  constructor(private configService: ConfigService) {}
 
   //eslint-disable-next-line @typescript-eslint/no-explicit-any
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
@@ -23,12 +23,13 @@ export class RequestShareInterceptor implements NestInterceptor {
       const requestCaller = req.headers?.[requestCallerHeader];
       const authorization = req.headers?.[authorizationHeader];
 
-      this.cls.set(ClsKeyEnum.REQUEST_ID, requestId);
+      const cls = ClsServiceManager.getClsService();
+      cls.set(ClsKeyEnum.REQUEST_ID, requestId);
       if (authorization) {
-        this.cls.set(ClsKeyEnum.USER_TOKEN, authorization);
+        cls.set(ClsKeyEnum.USER_TOKEN, authorization);
       }
       if (requestCaller) {
-        this.cls.set(ClsKeyEnum.REQUEST_CALLER, requestCaller);
+        cls.set(ClsKeyEnum.REQUEST_CALLER, requestCaller);
       }
     }
 
