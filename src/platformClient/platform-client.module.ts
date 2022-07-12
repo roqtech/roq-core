@@ -11,7 +11,7 @@ import { PlatformClientService, PlatformHttpClientService, PlatformServiceAccoun
       useFactory: (configService: ConfigService) => ({
         host: configService.get('application.platform.host'),
         endpoint: configService.get('application.platform.apiUri'),
-        headers: {}
+        headers: {},
       }),
       imports: [],
       inject: [ConfigService],
@@ -24,8 +24,11 @@ import { PlatformClientService, PlatformHttpClientService, PlatformServiceAccoun
     }),
   ],
   providers: [
-    PlatformClientService, PlatformHttpClientService, PlatformClientResolver, Logger,
-    PlatformServiceAccountClientService
+    PlatformClientService,
+    PlatformHttpClientService,
+    PlatformClientResolver,
+    Logger,
+    PlatformServiceAccountClientService,
   ],
   exports: [PlatformClientService, PlatformHttpClientService, PlatformServiceAccountClientService],
   controllers: [],

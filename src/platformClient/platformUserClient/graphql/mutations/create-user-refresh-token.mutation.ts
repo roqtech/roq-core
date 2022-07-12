@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-express';
+import { gql } from '@apollo/client/core';
 
 export const createUserRefreshTokenMutation = gql`
 mutation createUserRefreshToken($userToken: UserRefreshTokenCreateDto!) {

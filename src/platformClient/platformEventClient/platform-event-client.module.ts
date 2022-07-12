@@ -3,7 +3,9 @@ import { PlatformClientModule } from 'src/platformClient';
 import { PlatformEventClientService } from 'src/platformClient/platformEventClient/services';
 
 @Module({
-  imports: [PlatformClientModule],
+  imports: [
+    PlatformClientModule
+  ],
   providers: [PlatformEventClientService],
   exports: [PlatformEventClientService],
 })

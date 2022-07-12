@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-express';
+import { gql } from '@apollo/client/core';
 import { userInviteFragment } from 'src/platformClient/platformUserClient/graphql/fragments';
 
 export const updateUserInviteMutation = gql`

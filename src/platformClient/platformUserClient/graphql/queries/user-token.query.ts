@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-express';
+import { gql } from '@apollo/client/core';
 
 export const userTokenQuery = gql`
 query userToken($filter: UserTokenFilterArgType, $order: UserTokenOrderArgType) {

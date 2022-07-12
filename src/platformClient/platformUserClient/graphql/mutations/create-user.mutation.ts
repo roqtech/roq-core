@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-express';
+import { gql } from '@apollo/client/core';
 
 export const createUserMutation = gql`
 mutation createUser($user: UserCreateDto!) {
