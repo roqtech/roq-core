@@ -7,7 +7,7 @@ import { PlatformClientModule } from 'src/platformClient';
 
 @Module({
   imports: [
-    PlatformClientModule
+    PlatformClientModule,
   ],
   providers: [ImportConsole, ImportService, Logger, ConfigService],
   exports: [],

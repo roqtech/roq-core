@@ -9,7 +9,7 @@ import { ImportService } from 'src/import/services';
 import { LoggingTypeEnum } from 'src/logger/enums';
 import { Logger } from 'src/logger/services';
 import { PlatformServiceAccountClientService } from 'src/platformClient/services/platform-service-account-client.service';
-import { Connection, getConnection } from 'typeorm';
+import { Connection, createConnection, getConnection } from 'typeorm';
 import { v4 } from 'uuid';
 
 @Console()
@@ -46,7 +46,10 @@ export class ImportConsole {
     if (options && Object.keys(options).includes('initial') && options.initial === true) {
       initial = true;
     }
-    const connection: Connection = options.dbConnection || getConnection();
+    const connection: Connection = await createConnection({
+      type: 'postgres',
+      url: this.configService.get('application.databaseUrl'),
+    });
     if (initial) {
       await connection.query('create table if not exists seed_initialised (date timestamp NOT NULL);');
       const result = await connection.query('select count(*) from seed_initialised;');
@@ -75,13 +78,13 @@ export class ImportConsole {
   }
 
   async importPlatform(source: string, features: string[]): Promise<void> {
-    const directory = `../../../data/${source}`;
+    const directory = `/data/${source}`;
     this.logger.log({
       type: LoggingTypeEnum.importData,
       message: `Reading platform directories from ${source}`,
     });
     let directories = fs
-      .readdirSync(path.join(__dirname, directory), { withFileTypes: true })
+      .readdirSync(path.join(process.cwd(), directory), { withFileTypes: true })
       .filter((item) => item.isDirectory());
     if (features) {
       directories = directories.filter((d) => features.some((feature) => d.name === feature));
@@ -92,7 +95,7 @@ export class ImportConsole {
     });
     for (const subDirectory of directories) {
       const name = subDirectory.name;
-      const subDirectoryPath = path.join(__dirname, directory, subDirectory.name);
+      const subDirectoryPath = path.join(process.cwd(), directory, subDirectory.name);
 
       this.logger.log({
         type: LoggingTypeEnum.importData,
@@ -161,14 +164,14 @@ export class ImportConsole {
     }
   }
 
-  async importEntities(flush: boolean, connection: Connection, source: string): Promise<void> {
+  async importEntities(flush: boolean, connection: Connection, {source, absolute = false}:{source: string, absolute: boolean}): Promise<void> {
     try {
-      const directory = `../../../data/${source}`;
+      const directory = absolute ? source : path.join(process.cwd(), `/data/${source}`);
       this.logger.log({
         type: LoggingTypeEnum.importData,
         message: `Reading of files started for ${source}`,
       });
-      const files = fs.readdirSync(path.join(__dirname, directory));
+      const files = fs.readdirSync(directory);
 
       const data = {};
       for (const file of files) {
@@ -178,7 +181,7 @@ export class ImportConsole {
           continue;
         }
         data[entityName] = await csv({ flatKeys: true }).fromFile(
-          path.join(path.join(__dirname, directory), `${entityName}${extension}`),
+          path.join(directory, `${entityName}${extension}`),
         );
       }
       this.logger.log({
