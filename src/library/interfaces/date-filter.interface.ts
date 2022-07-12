@@ -5,7 +5,7 @@ import {
   MoreThanEqualFilterInterface,
   MoreThanFilterInterface,
   NotEqualToFilterInterface,
-} from '../interfaces'
+} from 'src/library/interfaces';
 
 export interface DateFilterInterface
   extends LessThanFilterInterface<Date>,

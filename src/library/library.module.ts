@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
-import { ParseUUIDStringPipe } from '../library/pipes'
-import { JsonObjectScalar } from '../library/scalars'
-import { UtilityService } from '../library/services'
+import { ParseUUIDStringPipe } from 'src/library/pipes'
+import { JsonObjectScalar } from 'src/library/scalars'
+import { UtilityService } from 'src/library/services'
 @Module({
   imports: [],
   providers: [UtilityService, JsonObjectScalar, ParseUUIDStringPipe],

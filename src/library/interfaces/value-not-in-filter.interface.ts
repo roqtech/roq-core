@@ -1,3 +1,3 @@
 export interface ValueNotInFilterInterface<T> {
-  valueNotIn?: T[]
+  valueNotIn?: T[];
 }

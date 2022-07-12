@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common'
 import { startCase } from 'lodash'
-import { ErrorCodeEnum } from '../enums'
-import { prepareError } from '../exception/utils'
+import { ErrorCodeEnum } from 'src/library/enums'
+import { prepareError } from 'src/library/exception/utils'
 
 interface VariablesInterface {
   contentType: string

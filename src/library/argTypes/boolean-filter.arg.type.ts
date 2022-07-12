@@ -1,10 +1,10 @@
-import { Field, InputType } from '@nestjs/graphql'
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class BooleanFilterArgType {
   @Field(() => Boolean, { nullable: true })
-  equalTo?: boolean
+  equalTo?: boolean;
 
   @Field(() => Boolean, { nullable: true })
-  notEqualTo?: boolean
+  notEqualTo?: boolean;
 }

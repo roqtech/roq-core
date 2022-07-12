@@ -1,22 +1,22 @@
-import { Field, InputType } from '@nestjs/graphql'
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class StringFilterArgType {
   @Field(() => String, { nullable: true })
-  equalTo?: string
+  equalTo?: string;
 
   @Field(() => String, { nullable: true })
-  notEqualTo?: string
+  notEqualTo?: string;
 
   @Field(() => [String], { nullable: true })
-  valueNotIn?: string[]
+  valueNotIn?: string[];
 
   @Field(() => [String], { nullable: true })
-  valueIn?: string[]
+  valueIn?: string[];
 
   @Field(() => String, { nullable: true })
-  like?: string
+  like?: string;
 
   @Field(() => String, { nullable: true })
-  iLike?: string
+  iLike?: string;
 }

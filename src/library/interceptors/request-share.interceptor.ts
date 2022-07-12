@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { ClsService } from 'nestjs-cls';
 import { Observable } from 'rxjs';
-import { ClsKeyEnum } from '../enums';
+import { ClsKeyEnum } from 'src/library/enums';
 import { v4 } from 'uuid';
 
 @Injectable()

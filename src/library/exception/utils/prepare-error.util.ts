@@ -1,9 +1,9 @@
 import { compileHandleBarTemplate } from './compile-message.util'
 import { HttpStatus } from '@nestjs/common'
 import { GraphQLError, GraphQLFormattedError } from 'graphql'
-import { ErrorCodeEnum } from '../../enums'
-import { ExceptionPayload } from '../../interfaces'
-import { JsonObject } from '../../scalars'
+import { ErrorCodeEnum } from 'src/library/enums'
+import { ExceptionPayload } from 'src/library/interfaces'
+import { JsonObject } from 'src/library/scalars'
 
 export const prepareError = (defaultMessage: string, errorCode: string, error?: any): string => {
   const variables = error && error.variables ? error.variables : {}
