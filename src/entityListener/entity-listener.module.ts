@@ -1,5 +1,6 @@
 // eslint-disable-next-line @roq/filename-suffix-mismatch
 import { DynamicModule, Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ListenerFactory } from 'src/entityListener/factories';
 import { EntityListenerOptionsInterface } from 'src/entityListener/interfaces';
 import { EntityListenerType } from 'src/entityListener/types';
@@ -8,7 +9,7 @@ import { PlatformEventClientModule } from 'src/platformClient/platformEventClien
 
 @Module({
   imports: [EventModule, PlatformEventClientModule],
-  providers: [ListenerFactory],
+  providers: [ListenerFactory, ConfigService],
   exports: [ListenerFactory],
 })
 export class EntityListenerModule {
