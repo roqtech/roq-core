@@ -15,7 +15,7 @@
     },
     "rootDir": ".",
     "lib": ["es2017", "esnext.asynciterable", "dom"],
-    "target": "ESNext"
+    "target": "es2017"
   },
   "extends": "./tsconfig.base.json",
   "include": ["src/**/*.ts"],
