@@ -1,6 +1,6 @@
 {
   "name": "@roq/core",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Roq core package",
   "main": "dist/src/index.js",
   "files": [
@@ -47,6 +47,7 @@
     "nestjs-cls": "^1.6.2",
     "nestjs-console": "^7.0.1",
     "tsc-alias": "^1.6.11",
+    "type-graphql": "^1.1.1",
     "typeorm": "^0.2.45",
     "winston": "^3.8.1"
   },

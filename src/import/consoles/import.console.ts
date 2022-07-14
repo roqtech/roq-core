@@ -46,10 +46,27 @@ export class ImportConsole {
     if (options && Object.keys(options).includes('initial') && options.initial === true) {
       initial = true;
     }
-    const connection: Connection = await createConnection({
-      type: 'postgres',
-      url: this.configService.get('application.databaseUrl'),
-    });
+    let connection
+    try {
+      connection = getConnection()
+    } catch (error) {
+      this.logger.log({
+        type: LoggingTypeEnum.importData,
+        message: 'Could not establish connection getConnection()',
+      });
+      try {
+        connection = await createConnection({
+          type: 'postgres',
+          url: this.configService.get('application.databaseUrl'),
+        })
+      } catch (error) {
+        this.logger.log({
+          type: LoggingTypeEnum.importData,
+          message: 'Could not establish connection createConnection()',
+        });
+        process.exit(1);
+      }
+    }
     if (initial) {
       await connection.query('create table if not exists seed_initialised (date timestamp NOT NULL);');
       const result = await connection.query('select count(*) from seed_initialised;');
@@ -70,7 +87,7 @@ export class ImportConsole {
     const platformSources = configuration.filter((config) => config.isPlatform);
     const nonPlatformSources = configuration.filter((config) => !config.isPlatform);
     for (const config of nonPlatformSources) {
-      await this.importEntities(flush, connection, config.source);
+      await this.importEntities(flush, connection, { source: config.source });
     }
     for (const config of platformSources) {
       await this.importPlatform(config.source, config.features);
@@ -164,7 +181,7 @@ export class ImportConsole {
     }
   }
 
-  async importEntities(flush: boolean, connection: Connection, {source, absolute = false}:{source: string, absolute: boolean}): Promise<void> {
+  async importEntities(flush: boolean, connection: Connection, {source, absolute = false}:{source: string, absolute?: boolean}): Promise<void> {
     try {
       const directory = absolute ? source : path.join(process.cwd(), `/data/${source}`);
       this.logger.log({

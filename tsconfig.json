@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "declarationMap": true,
-    "removeComments": true,
     "sourceMap": false,
     "baseUrl": ".",
     "module": "commonjs",
@@ -17,7 +15,7 @@
     },
     "rootDir": ".",
     "lib": ["es2017", "esnext.asynciterable", "dom"],
-    "target": "es2017"
+    "target": "ESNext"
   },
   "extends": "./tsconfig.base.json",
   "include": ["src/**/*.ts"],
