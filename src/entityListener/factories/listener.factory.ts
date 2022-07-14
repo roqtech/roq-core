@@ -11,18 +11,18 @@ import { Connection, EntitySubscriberInterface } from 'typeorm';
 @Injectable()
 export class ListenerFactory {
   constructor(
-    // @InjectConnection()
-    // private readonly connection: Connection,
+    @InjectConnection()
+    private readonly connection: Connection,
     @Inject(PlatformEventClientService)
     private readonly platformClientEventService: PlatformEventClientService,
     private readonly configService: ConfigService,
   ) {}
 
-  createListener(conn: Connection, entityClass: ClassType<unknown>, excludedFields?: string[]): EntitySubscriberInterface {
+  createListener(entityClass: ClassType<unknown>, excludedFields?: string[]): EntitySubscriberInterface {
     return new FactoryListener(
       entityClass,
       entityClass.name,
-      conn,
+      this.connection,
       this.platformClientEventService,
       this.configService,
       excludedFields,
@@ -33,7 +33,7 @@ export class ListenerFactory {
     return entitiesListeners.map((entityListener) => ({
       provide: `${entityListener.entity}Listener`,
       useFactory: (factory: ListenerFactory) =>
-        factory.createListener(entityListener.conn, entityListener.entity, entityListener.excludedFields),
+        factory.createListener(entityListener.entity, entityListener.excludedFields),
       inject: [ListenerFactory],
     }));
   }
@@ -48,7 +48,7 @@ export class ListenerFactory {
       {
         provide: option.name + 'Listener',
         useFactory: async (entityListener: EntityListenerType, factory: ListenerFactory) =>
-          factory.createListener(entityListener.conn, entityListener.entity, entityListener.excludedFields),
+          factory.createListener(entityListener.entity, entityListener.excludedFields),
         inject: [option.name, ListenerFactory],
       },
     ];
