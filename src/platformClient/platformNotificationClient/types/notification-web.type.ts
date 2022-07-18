@@ -1,5 +1,5 @@
 
-export interface NotificationWeb {
+export interface NotificationInApp {
   id: string;
   title: string;
   icon: string;
