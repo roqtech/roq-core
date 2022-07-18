@@ -15,6 +15,7 @@ export { RolePageModel } from 'src/platformClient/models/role-page.model';
 export { PermissionModel } from 'src/platformClient/models/permission.model';
 export { PermissionPageModel } from 'src/platformClient/models/permission-page.model';
 export { UserModel } from 'src/platformClient/models/user.model'
+export { UserPageModel } from 'src/platformClient/models/user-page.model'
 export { UserLoginHistoryPageModel } from 'src/platformClient/models/user-login-history-page.model'
 export { UserLoginHistoryModel } from 'src/platformClient/models/user-login-history.model'
 export { UserFileModel } from 'src/platformClient/models/user-file.model'
