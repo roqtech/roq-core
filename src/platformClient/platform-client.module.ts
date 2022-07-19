@@ -2,7 +2,6 @@ import { CacheModule, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApolloClientModule } from 'src/apolloClient';
 import { Logger } from 'src/logger/services';
-import { PlatformClientResolver } from 'src/platformClient/resolvers';
 import { PlatformClientService, PlatformHttpClientService, PlatformServiceAccountClientService } from 'src/platformClient/services';
 
 @Module({
@@ -26,7 +25,6 @@ import { PlatformClientService, PlatformHttpClientService, PlatformServiceAccoun
   providers: [
     PlatformClientService,
     PlatformHttpClientService,
-    PlatformClientResolver,
     Logger,
     PlatformServiceAccountClientService,
   ],

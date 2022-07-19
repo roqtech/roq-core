@@ -16,3 +16,5 @@ export type { UserToken } from './user-token.type';
 export type { UserInvite } from './user-invite.type';
 export type { CheckUserInviteToken } from './check-user-invite-token.type';
 export type { CheckUserRestorePasswordToken } from './check-user-restore-password-token.type';
+export type { UserLoginHistoryType } from './user-login-history.type'
+export type { UserLoginHistoryPageType } from './user-login-history-page.type'

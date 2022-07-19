@@ -1,4 +1,4 @@
-import { UserLoginHistoryPageModel } from 'src/platformClient/models';
+import { UserLoginHistoryPageType } from 'src/platformClient/platformUserClient/types';
 
 export interface User {
   id: string;
@@ -13,7 +13,7 @@ export interface User {
   optedInAt?: Date;
   active?: boolean;
   sync?: boolean;
-  userLoginHistories: UserLoginHistoryPageModel;
+  userLoginHistories: UserLoginHistoryPageType;
   createdAt?: Date;
   updatedAt?: Date;
 }
