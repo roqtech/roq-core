@@ -2,7 +2,7 @@ import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Cache } from 'cache-manager';
 import { decode, JwtPayload } from 'jsonwebtoken';
-import {  ClsServiceManager } from 'nestjs-cls';
+import { ClsService } from 'nestjs-cls';
 import { ApolloClientConfigType } from 'src/apolloClient/types';
 import { ClsKeyEnum } from 'src/library/enums';
 import { Logger } from 'src/logger/services';
@@ -16,16 +16,16 @@ export class PlatformServiceAccountClientService extends PlatformClientService {
     protected config: ApolloClientConfigType,
     protected configService: ConfigService,
     protected logger: Logger,
+    protected readonly cls: ClsService,
     private platformHttpClientService: PlatformHttpClientService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {
-    super(config, configService, logger);
+    super(config, configService, logger, cls);
   }
 
   protected async setHeaders(headers?: Record<string, unknown>): Promise<void> {
-    const cls = ClsServiceManager.getClsService();
-    const requestId = cls.get(ClsKeyEnum.REQUEST_ID) ?? v4()
-    const requestCaller = this.configService.get('application.appName')
+    const requestId = this.cls.get(ClsKeyEnum.REQUEST_ID) ?? v4();
+    const requestCaller = this.configService.get('application.appName');
 
     headers[this.configService.get('application.platform.requestIdHeader')] = requestId;
     headers[this.configService.get('application.platform.requestCallerHeader')] = requestCaller;

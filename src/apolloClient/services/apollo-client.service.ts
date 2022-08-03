@@ -22,7 +22,7 @@ export class ApolloClientService {
     if (config.headers) {
       headers = { ...headers, ...config.headers };
     }
-    this.uri = `${config.host}${config.endpoint ? config.endpoint : '/graphql'}`;
+    this.uri = `${config.host}${config.endpoint ? config.endpoint : ''}`;
     const httpLink = createHttpLink({
       uri: this.uri,
       fetchOptions: {

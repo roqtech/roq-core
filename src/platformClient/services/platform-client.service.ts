@@ -2,7 +2,7 @@ import { MutationOptions, QueryOptions } from '@apollo/client/core';
 import { ForbiddenException, HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { print } from 'graphql/language/printer';
-import { ClsServiceManager } from 'nestjs-cls';
+import { ClsService } from 'nestjs-cls';
 import { ApolloClientService } from 'src/apolloClient/services';
 import { ApolloClientConfigType } from 'src/apolloClient/types';
 import { ClsKeyEnum, ErrorCodeEnum } from 'src/library/enums';
@@ -24,6 +24,7 @@ export class PlatformClientService extends ApolloClientService {
     protected config: ApolloClientConfigType,
     protected configService: ConfigService,
     protected logger: Logger,
+    protected readonly cls: ClsService,
   ) {
     super(config, configService);
   }
@@ -45,9 +46,8 @@ export class PlatformClientService extends ApolloClientService {
   }
 
   protected async setHeaders(headers: Record<string, unknown> = {}): Promise<void> {
-    const cls = ClsServiceManager.getClsService();
-    const requestId = cls.get(ClsKeyEnum.REQUEST_ID) ?? v4();
-    const userToken = cls.get(ClsKeyEnum.USER_TOKEN);
+    const requestId = this.cls.get(ClsKeyEnum.REQUEST_ID) ?? v4();
+    const userToken = this.cls.get(ClsKeyEnum.USER_TOKEN);
     const requestCaller = this.configService.get('application.appName');
 
     headers[this.configService.get('application.platform.requestIdHeader')] = requestId;
