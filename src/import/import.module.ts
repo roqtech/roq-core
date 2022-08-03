@@ -6,11 +6,9 @@ import { Logger } from 'src/logger/services';
 import { PlatformClientModule } from 'src/platformClient';
 
 @Module({
-  imports: [
-    PlatformClientModule,
-  ],
-  providers: [ImportConsole, ImportService, Logger, ConfigService],
-  exports: [],
+  imports: [PlatformClientModule],
+  providers: [ImportConsole, ImportService, Logger],
+  exports: [ImportConsole],
   controllers: [],
 })
 export class ImportModule {}

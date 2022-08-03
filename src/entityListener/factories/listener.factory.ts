@@ -15,6 +15,7 @@ export class ListenerFactory {
     private readonly connection: Connection,
     @Inject(PlatformEventClientService)
     private readonly platformClientEventService: PlatformEventClientService,
+    @Inject(ConfigService)
     private readonly configService: ConfigService,
   ) {}
 

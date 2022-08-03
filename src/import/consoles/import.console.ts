@@ -6,9 +6,10 @@ import * as fs from 'fs';
 import { Command, Console } from 'nestjs-console';
 import * as path from 'path';
 import { ImportService } from 'src/import/services';
+import { PlatformEventSubscriber } from 'src/import/interface';
 import { LoggingTypeEnum } from 'src/logger/enums';
 import { Logger } from 'src/logger/services';
-import { PlatformServiceAccountClientService } from 'src/platformClient/services/platform-service-account-client.service';
+import { PlatformServiceAccountClientService } from 'src/platformClient/services';
 import { Connection, createConnection, getConnection } from 'typeorm';
 import { v4 } from 'uuid';
 
@@ -29,10 +30,6 @@ export class ImportConsole {
         required: false,
         flags: '--flush',
       },
-      {
-        required: false,
-        flags: '--initial',
-      }
     ],
   })
   async importData(
@@ -41,10 +38,6 @@ export class ImportConsole {
     let flush = false;
     if (options && Object.keys(options).includes('flush') && options.flush === true) {
       flush = true;
-    }
-    let initial = false;
-    if (options && Object.keys(options).includes('initial') && options.initial === true) {
-      initial = true;
     }
     let connection
     try {
@@ -67,15 +60,6 @@ export class ImportConsole {
         process.exit(1);
       }
     }
-    if (initial) {
-      await connection.query('create table if not exists seed_initialised (date timestamp NOT NULL);');
-      const result = await connection.query('select count(*) from seed_initialised;');
-      const count = Number(result[0].count);
-      if (!isNaN(count) && count > 0) {
-        return;
-      }
-      await connection.query('insert into seed_initialised (date) values (NOW())');
-    }
     const configuration = this.configService.get('application.importDataConfigs');
     this.logger.log({
       type: LoggingTypeEnum.importData,
@@ -84,100 +68,8 @@ export class ImportConsole {
         configuration
       }
     });
-    const platformSources = configuration.filter((config) => config.isPlatform);
-    const nonPlatformSources = configuration.filter((config) => !config.isPlatform);
-    for (const config of nonPlatformSources) {
-      await this.importEntities(flush, connection, { source: config.source });
-    }
-    for (const config of platformSources) {
-      await this.importPlatform(config.source, config.features);
-    }
-  }
-
-  async importPlatform(source: string, features: string[]): Promise<void> {
-    const directory = `/data/${source}`;
-    this.logger.log({
-      type: LoggingTypeEnum.importData,
-      message: `Reading platform directories from ${source}`,
-    });
-    let directories = fs
-      .readdirSync(path.join(process.cwd(), directory), { withFileTypes: true })
-      .filter((item) => item.isDirectory());
-    if (features) {
-      directories = directories.filter((d) => features.some((feature) => d.name === feature));
-    }
-    this.logger.log({
-      type: LoggingTypeEnum.importData,
-      message: 'Platform directories loaded',
-    });
-    for (const subDirectory of directories) {
-      const name = subDirectory.name;
-      const subDirectoryPath = path.join(process.cwd(), directory, subDirectory.name);
-
-      this.logger.log({
-        type: LoggingTypeEnum.importData,
-        message: `Reading files from ${subDirectory.name}`,
-      });
-      const files = fs.readdirSync(subDirectoryPath);
-      this.logger.log({
-        type: LoggingTypeEnum.importData,
-        message: 'Files loaded',
-      });
-
-      const variables: { [key in string]: Record<string, string>[]} = {};
-      for (const file of files) {
-        const extension = path.extname(file);
-        const entityName = path.basename(file, extension);
-        this.logger.log({
-          type: LoggingTypeEnum.importData,
-          message: `Reading ${entityName}`,
-        });
-        variables[entityName] = await csv({ flatKeys: true }).fromFile(
-          path.join(subDirectoryPath, `${entityName}${extension}`),
-        );
-        this.logger.log({
-          type: LoggingTypeEnum.importData,
-          message: `Reading of ${entityName} done`,
-        });
-      }
-
-      this.logger.log({
-        type: LoggingTypeEnum.importData,
-        message: `Start importing files to ${name} service`,
-      });
-
-      try {
-        const requestId = v4();
-        const requestCaller = this.configService.get('application.appName');
-        const headers = {};
-        headers[this.configService.get('application.platform.requestIdHeader')] = requestId;
-        headers[this.configService.get('application.platform.requestCallerHeader')] = requestCaller;
-        await this.platformServiceAccountClientService.request(
-          {
-            mutation: gql`
-          mutation ${name}ImportData($data: DataImportDto!) {
-            ${name}ImportData(data: $data)
-          }
-        `,
-            variables: {
-              data: { data: variables },
-            },
-          },
-          null,
-          headers,
-        );
-        this.logger.log({
-          type: LoggingTypeEnum.importData,
-          message: `Import for ${name} succeed`,
-        });
-      } catch (error ) {
-        this.logger.log({
-          type: LoggingTypeEnum.importData,
-          message: `Import for ${name} failed`,
-          data: { error }
-        });
-        process.exit(1);
-      }
+    for (const source of configuration) {
+      await this.importEntities(flush, connection, { source });
     }
   }
 
@@ -218,5 +110,33 @@ export class ImportConsole {
       });
       process.exit(1);
     }
+  }
+
+  @Command({
+    command: 'import-event-subscribers',
+    description: 'Importing event subscribers',
+  })
+  public async importEventSubscribers(eventSubscribers: PlatformEventSubscriber[]): Promise<void> {
+    const eventConfigs = fs.readFileSync(path.join(process.cwd(), 'src', 'config', 'platform-events.json')).toString('utf-8');
+    const variables = {
+      data: eventSubscribers?.length > 0 ? eventSubscribers : JSON.parse(eventConfigs)
+    };
+    const requestId = v4();
+    const requestCaller = this.configService.get('application.appName');
+    const headers = {};
+    headers[this.configService.get('application.platform.requestIdHeader')] = requestId;
+    headers[this.configService.get('application.platform.requestCallerHeader')] = requestCaller;
+    await this.platformServiceAccountClientService.request(
+      {
+        mutation: gql`
+          mutation eventSyncEventSubscribers($data: [EventSubscriberCreateDto!]!) {
+            eventSyncEventSubscribers(data: $data)
+          }
+        `,
+        variables,
+      },
+      null,
+      headers,
+    );
   }
 }

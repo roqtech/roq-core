@@ -1,6 +1,6 @@
 {
   "name": "@roq/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Roq core package",
   "main": "dist/src/index.js",
   "files": [
@@ -37,6 +37,7 @@
     "@roq/class-validator": "^0.1.0",
     "cache-manager": "^4.0.1",
     "csvtojson": "^2.0.10",
+    "dataloader": "^2.1.0",
     "faker": "^5.5.3",
     "handlebars": "^4.7.7",
     "isomorphic-fetch": "^3.0.0",
@@ -55,8 +56,5 @@
     "@nestjs/cli": "^8.2.8",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2"
-  },
-  "publishConfig": {
-    "tag": "next"
   }
 }

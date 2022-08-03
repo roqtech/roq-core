@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
 import { AuthorizeCredentialsType } from 'src/platformClient/types';
@@ -14,7 +14,7 @@ export class PlatformHttpClientService {
       )}`,
     ).toString('base64');
     this.http = axios.create({
-      baseURL: configService.get('application.platform.host'),
+      baseURL: configService.get('application.platform.url'),
       headers: { [configService.get('application.platform.authorizationHeader')]: `Basic ${base64encodedData}` },
     });
   }
@@ -24,6 +24,8 @@ export class PlatformHttpClientService {
       tenantId: this.configService.get('application.platform.tenantId'),
       apiKey: this.configService.get('application.platform.apiKey'),
       roqIdentifier
+    }).catch(err => {
+      throw new BadGatewayException(err?.response?.data?.message);
     });
     return response.data.accessToken;
   }
@@ -33,6 +35,8 @@ export class PlatformHttpClientService {
       tenantId: this.configService.get('application.platform.tenantId'),
       apiKey: this.configService.get('application.platform.apiKey'),
       email
+    }).catch(err => {
+      throw new BadGatewayException(err?.response?.data?.message);
     });
     return response.data.accessToken;
   }

@@ -34,17 +34,19 @@ export class PlatformServiceAccountClientService extends PlatformClientService {
     let isTokenValid = false;
     let token = await this.cacheManager.get(tokenCacheKey);
 
-    if(token) {
+    if (token) {
       try {
-        const payload  = decode(token) as JwtPayload;
-        isTokenValid = payload.exp !== undefined && (payload.exp * 1000) > Date.now();
-      } catch(err) {
+        const payload = decode(token) as JwtPayload;
+        isTokenValid = payload.exp !== undefined && payload.exp * 1000 > Date.now();
+      } catch (err) {
         isTokenValid = false;
       }
     }
 
-    if(!isTokenValid) {
-      token = await this.platformHttpClientService.getServiceAccountAccessToken(this.configService.get('application.serviceAccount.email'));
+    if (!isTokenValid) {
+      token = await this.platformHttpClientService.getServiceAccountAccessToken(
+        this.configService.get('application.serviceAccount.email'),
+      );
       await this.cacheManager.set(tokenCacheKey, token);
     }
     headers[this.configService.get('application.platform.authorizationHeader')] = `Bearer ${token}`;

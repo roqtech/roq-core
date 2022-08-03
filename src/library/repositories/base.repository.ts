@@ -1,7 +1,8 @@
 /* eslint-disable @roq/repository-correct-export-annotation */
-import { isArray, isNil, lowerFirst } from 'lodash';
+import { cloneDeep, groupBy, isArray, isNil, lowerFirst } from 'lodash';
 import { OperatorEnum } from 'src/library/enums';
 import {
+  ArrayLoaderResponseInterface,
   BooleanFilterInterface,
   IdFilterInterface,
   IntFilterInterface,
@@ -167,5 +168,128 @@ export class BaseRepository<T> extends Repository<T> {
       }
     }
     return '';
+  }
+
+  async getLoaderEntitiesAndCount(
+    parentIds: string[], relationField: string, query: QueryInterface,
+    ): Promise<ArrayLoaderResponseInterface<T>[]> {
+    const entityMetadata = this.manager.connection.entityMetadatas.find(
+      (metadata) => metadata.targetName === (this.target as { name: string }).name,
+    );
+
+    const tableName = entityMetadata.tableName;
+
+    const relationFieldSelect = this.getLoaderRelationSelectField(entityMetadata, relationField);
+
+    const alias = relationField.toLowerCase();
+    const [entities, parentCounts] = await Promise.all([
+      // clone deep query parameter because there is direct parameter mutation
+      // happening in buildSelectQuery
+      this.getLoaderEntities(tableName, relationFieldSelect, alias, cloneDeep(query)),
+      this.getLoaderParentCount(relationFieldSelect, alias, cloneDeep(query)),
+    ]);
+
+    return parentIds.map(parentId => ({
+      data: entities[parentId] || [],
+      count: parentCounts[parentId] || 0
+    }));
+  }
+
+  protected getLoaderRelationSelectField(
+    entityMetadata: EntityMetadata,
+    relationField: string,
+  ): string {
+    const tableName = entityMetadata.tableName;
+    const deriveRelatedFieldName = (rel) => `${lowerFirst(rel.inverseEntityMetadata.targetName.replace('Entity', ''))}Id`;
+    const relation = entityMetadata.relations.find((r) => deriveRelatedFieldName(r) === relationField);
+    let relationFieldSelect = `${tableName}.${relationField}`;
+
+    if(relation?.relationType === 'many-to-many') {
+      relationFieldSelect = `${tableName}${relation.propertyPath}.id`;
+    }
+    return relationFieldSelect;
+  }
+
+  protected async getLoaderEntities(
+    tableName: string,
+    relationFieldSelect: string,
+    alias: string,
+    query: QueryInterface,
+  ): Promise<{[key in string]: T[]}> {
+
+    const { queryLimit } = this.manager.connection.options.extra;
+    let limit = query?.limit;
+    if (!limit || limit > queryLimit) {
+      limit = queryLimit;
+    }
+    const offset = query.offset || 0;
+    limit = offset + limit;
+
+    const partitionedQuery = this
+      .buildSelectQuery(query)
+      .skip(null)
+      .take(null)
+      .select(`${tableName}.id, ${relationFieldSelect} as ${alias}`)
+      .addSelect(
+        `ROW_NUMBER () OVER (PARTITION BY ${relationFieldSelect}) - 1 AS rowIndex`
+      );
+
+    // this query will result to the id and foreign key field name or alias of related entity
+    const entityLookupsQuery = this.manager.createQueryBuilder();
+    entityLookupsQuery
+      .select('e.*')
+      .from(`(${partitionedQuery.getQuery()})`, 'e')
+      .setParameters(partitionedQuery.getParameters())
+      .where('e.rowIndex >= :offset', { offset })
+      .andWhere('e.rowIndex < :limit', { limit });
+
+    const entityLookups = await entityLookupsQuery.getRawMany();
+
+    let result = [];
+    if(entityLookups.length) {
+      // we query the final result using the entity id field
+      result = await this.buildSelectQuery({
+        ...query || {},
+        filter: {
+          id: {
+            valueIn: entityLookups.map(e => e.id)
+          }
+        },
+      })
+      .skip(null)
+      .take(null)
+      .getMany();
+    }
+
+    const groupedEntityLookUps = groupBy(entityLookups, alias) as { [key in string]: {id: string}[] };
+    return Object.entries(groupedEntityLookUps)
+      .reduce((acc, currentGroup) => {
+        const [parentId, aggregatedLookup] = currentGroup;
+        const ids = aggregatedLookup.map(e => e.id);
+        return {
+          ...acc,
+          [parentId]: result.filter(e => ids.includes(e.id))
+        };
+      }, {});
+  }
+
+  protected async getLoaderParentCount(
+    relationFieldSelect: string,
+    alias: string,
+    query: QueryInterface
+  ): Promise<{ [key: string]: number }> {
+    const q = this
+      .buildSelectQuery(query)
+      .skip(null)
+      .take(null)
+      .orderBy(null)
+      .select(`COUNT(${relationFieldSelect}) as total, ${relationFieldSelect} as ${alias}`)
+      .groupBy(`${relationFieldSelect}`);
+
+    const data = await q.getRawMany();
+    return data.reduce((acc, el) => ({
+        ...acc,
+        [el?.[alias]]: Number(el.total)
+      }), {});
   }
 }

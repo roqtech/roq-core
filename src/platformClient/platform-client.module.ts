@@ -8,8 +8,7 @@ import { PlatformClientService, PlatformHttpClientService, PlatformServiceAccoun
   imports: [
     ApolloClientModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
-        host: configService.get('application.platform.host'),
-        endpoint: configService.get('application.platform.apiUri'),
+        host: configService.get('application.platform.graphqlUri'),
         headers: {},
       }),
       imports: [],

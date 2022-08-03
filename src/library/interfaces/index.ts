@@ -18,3 +18,5 @@ export type { GraphqlContextInterface } from 'src/library/interfaces/graphql-con
 export type { ExceptionPayload } from './exception-payload.interface';
 export type { LikeFilterInterface } from 'src/library/interfaces/like-filter.interface';
 export type { ILikeFilterInterface } from 'src/library/interfaces/iLike-filter.interface';
+export type { ArrayLoaderResponseInterface } from 'src/library/interfaces/array-loader-response.interface';
+export type { NestDataLoader } from 'src/library/interfaces/nest-data-loader.interface';

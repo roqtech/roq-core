@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { UserTokenTypeEnum } from 'src/platformClient/platformUserClient/enums';
 import {
   acceptUserInvitationMutation,
   checkUserInviteTokenQuery,
@@ -150,7 +149,6 @@ export class PlatformUserClientService {
   async clearUserRefreshTokens(userId: string): Promise<string[]> {
     const variables = {
       userId,
-      type: UserTokenTypeEnum.REFRESH,
     };
 
     return this.platformServiceAccountClientService.request<string[]>(
