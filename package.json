@@ -1,6 +1,6 @@
 {
   "name": "@roq/core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Roq core package",
   "main": "dist/src/index.js",
   "files": [
