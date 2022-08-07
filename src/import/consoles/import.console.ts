@@ -19,7 +19,7 @@ export class ImportConsole {
     public logger: Logger,
     private importService: ImportService,
     private configService: ConfigService,
-    private platformServiceAccountClientService: PlatformServiceAccountClientService
+    private platformServiceAccountClientService: PlatformServiceAccountClientService,
   ) {}
 
   @Command({
@@ -35,9 +35,9 @@ export class ImportConsole {
   async importData(
     options: CommandOptions & { flush?: boolean; initial?: boolean; dbConnection?: Connection },
   ): Promise<void> {
-    let flush = false;
+    let flush = false
     if (options && Object.keys(options).includes('flush') && options.flush === true) {
-      flush = true;
+      flush = true
     }
     let connection
     try {
@@ -46,7 +46,7 @@ export class ImportConsole {
       this.logger.log({
         type: LoggingTypeEnum.importData,
         message: 'Could not establish connection getConnection()',
-      });
+      })
       try {
         connection = await createConnection({
           type: 'postgres',
@@ -56,51 +56,53 @@ export class ImportConsole {
         this.logger.log({
           type: LoggingTypeEnum.importData,
           message: 'Could not establish connection createConnection()',
-        });
-        process.exit(1);
+        })
+        process.exit(1)
       }
     }
-    const configuration = this.configService.get('application.importDataConfigs');
+    const configuration = this.configService.get('application.importDataConfigs')
     this.logger.log({
       type: LoggingTypeEnum.importData,
       message: 'Platform import seed configuration',
       data: {
-        configuration
-      }
-    });
+        configuration,
+      },
+    })
     for (const source of configuration) {
-      await this.importEntities(flush, connection, { source });
+      await this.importEntities(flush, connection, { source })
     }
   }
 
-  async importEntities(flush: boolean, connection: Connection, {source, absolute = false}:{source: string, absolute?: boolean}): Promise<void> {
+  async importEntities(
+    flush: boolean,
+    connection: Connection,
+    { source, absolute = false }: { source: string; absolute?: boolean },
+  ): Promise<void> {
     try {
-      const directory = absolute ? source : path.join(process.cwd(), `/data/${source}`);
+      const directory = absolute ? source : path.join(process.cwd(), `/data/${source}`)
       if (!fs.existsSync(directory)) {
-        return Promise.resolve();
+        return Promise.resolve()
       }
       this.logger.log({
         type: LoggingTypeEnum.importData,
         message: `Reading of files started for ${source}`,
-      });
-      const files = fs.readdirSync(directory);
+      })
+      const files = fs.readdirSync(directory)
 
-      const data = {};
+      const data = {}
       for (const file of files) {
-        const extension = path.extname(file);
-        const entityName = path.basename(file, extension);
+        const extension = path.extname(file)
+        const entityName = path.basename(file, extension)
         if (!connection.hasMetadata(entityName)) {
-          continue;
+          continue
         }
-        data[entityName] = await csv({ flatKeys: true }).fromFile(
-          path.join(directory, `${entityName}${extension}`),
-        );
+        data[entityName] = await csv({ flatKeys: true }).fromFile(path.join(directory, `${entityName}${extension}`))
       }
       this.logger.log({
         type: LoggingTypeEnum.importData,
         message: 'Reading of files done',
-      });
-      await this.importService.importData(connection, data, flush);
+      })
+      await this.importService.importData(connection, data, flush)
     } catch (err) {
       this.logger.log({
         type: LoggingTypeEnum.importData,
@@ -110,8 +112,8 @@ export class ImportConsole {
           response: err.response,
         },
         message: `Reading of files failed for ${source}`,
-      });
-      process.exit(1);
+      })
+      process.exit(1)
     }
   }
 
@@ -120,15 +122,17 @@ export class ImportConsole {
     description: 'Importing event subscribers',
   })
   public async importEventSubscribers(eventSubscribers: PlatformEventSubscriber[]): Promise<void> {
-    const eventConfigs = fs.readFileSync(path.join(process.cwd(), 'src', 'config', 'platform-events.json')).toString('utf-8');
+    const eventConfigs = fs
+      .readFileSync(path.join(process.cwd(), 'src', 'config', 'platform-events.json'))
+      .toString('utf-8')
     const variables = {
-      data: eventSubscribers?.length > 0 ? eventSubscribers : JSON.parse(eventConfigs)
-    };
-    const requestId = v4();
-    const requestCaller = this.configService.get('application.appName');
-    const headers = {};
-    headers[this.configService.get('application.platform.requestIdHeader')] = requestId;
-    headers[this.configService.get('application.platform.requestCallerHeader')] = requestCaller;
+      data: eventSubscribers?.length > 0 ? eventSubscribers : JSON.parse(eventConfigs),
+    }
+    const requestId = v4()
+    const requestCaller = this.configService.get('application.appName')
+    const headers = {}
+    headers[this.configService.get('application.platform.requestIdHeader')] = requestId
+    headers[this.configService.get('application.platform.requestCallerHeader')] = requestCaller
     await this.platformServiceAccountClientService.request(
       {
         mutation: gql`
@@ -140,6 +144,6 @@ export class ImportConsole {
       },
       null,
       headers,
-    );
+    )
   }
 }

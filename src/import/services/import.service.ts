@@ -1,128 +1,184 @@
 import { Injectable } from '@nestjs/common';
-import faker from 'faker';
+import { ConfigService } from '@nestjs/config';
+import * as faker from 'faker';
 import { LoggingTypeEnum } from 'src/logger/enums';
 import { Logger } from 'src/logger/services';
-import { Connection, DeepPartial } from 'typeorm';
+import { Connection, DeepPartial, EntityMetadata } from 'typeorm';
 import { RelationMetadata } from 'typeorm/metadata/RelationMetadata';
+
+const pLimit = require('p-limit')
 
 @Injectable()
 export class ImportService {
   constructor(
-    private logger: Logger
+    private readonly logger: Logger,
+    private readonly configService: ConfigService,
+    private readonly connection?: Connection,
   ) {}
 
-  async importData(connection: Connection, data: Record<string, unknown>, flush = false): Promise<void> {
-    const savedEntities = {};
-
+  async importData(
+    connection: Connection = this.connection,
+    data: Record<string, unknown>,
+    flush = false,
+  ): Promise<void> {
     this.logger.log({
       type: LoggingTypeEnum.importData,
       message: 'Sorting of entities started',
-    });
-    const sortedData = this.sortEntities(data, connection);
+    })
+    const sortedData = this.sortEntities(data, connection)
     this.logger.log({
       type: LoggingTypeEnum.importData,
       message: 'Sorting of entities done',
-    });
+    })
 
     if (flush) {
       this.logger.log({
         type: LoggingTypeEnum.importData,
         message: 'Removing of entities started',
-      });
-      await this.removeEntities(sortedData, connection);
+      })
+      await this.removeEntities(sortedData, connection)
       this.logger.log({
         type: LoggingTypeEnum.importData,
-        message: 'Removing of entities started',
-      });
+        message: 'Removing of entities done',
+      })
     }
-    const entityNames = Object.keys(sortedData);
-    for (const entityName of entityNames) {
+    const entityNames = Object.keys(sortedData)
+    const limiter = pLimit(this.configService.get('application.maxConcurrencyLimit'))
+    await entityNames.reduce(
+      (accP, entityName) =>
+        limiter(async () => {
+          const acc = await accP
+          return {
+            ...acc,
+            [entityName]: await this.importEntity(connection, entityName, acc, sortedData),
+          }
+        }),
+      Promise.resolve({}),
+    )
+  }
+
+  async importEntity(
+    connection: Connection = this.connection,
+    entityName: string,
+    savedEntities: Record<string, never[]>,
+    sortedData: Record<string, unknown>,
+  ): Promise<never[]> {
+    this.logger.log({
+      type: LoggingTypeEnum.importData,
+      message: `Importing of ${entityName} started`,
+    })
+
+    const importData = sortedData[entityName] as []
+    this.logger.log({
+      type: LoggingTypeEnum.importData,
+      message: `Seeding of ${entityName} started`,
+    })
+    try {
       this.logger.log({
         type: LoggingTypeEnum.importData,
-        message: `Importing of ${entityName} started`,
-      });
-
-      const importData = sortedData[entityName] as [];
+        message: `Seeding of relations for ${entityName} started`,
+      })
+      const entitiesWithRelations = await this.seedRelations(entityName, importData, connection, savedEntities)
       this.logger.log({
         type: LoggingTypeEnum.importData,
-        message: `Seeding of ${entityName} started`,
-      });
-      const entitiesWithRelations = await this.seedRelations(entityName, importData, connection, savedEntities);
-
-      const newEntities = await this.createOrGetEntities(entityName, entitiesWithRelations, connection);
-      savedEntities[entityName] = await connection.manager.save(newEntities, { chunk: 100 });
+        message: `Seeding of relations for ${entityName} done`,
+      })
+      this.logger.log({
+        type: LoggingTypeEnum.importData,
+        message: `Preparation of TypeORM Entities for ${entityName} started`,
+      })
+      const newEntities = await this.createOrGetEntities(entityName, entitiesWithRelations, connection)
+      this.logger.log({
+        type: LoggingTypeEnum.importData,
+        message: `Preparation of TypeORM Entities for ${entityName} done`,
+      })
+      const savedEntity = await connection.manager.save(newEntities, { chunk: 100 })
       this.logger.log({
         type: LoggingTypeEnum.importData,
         message: `Seeding of ${entityName} done`,
-      });
+      })
       this.logger.log({
         type: LoggingTypeEnum.importData,
         message: `Importing of ${entityName} done`,
-      });
+      })
+      return savedEntity
+    } catch (error) {
+      this.logger.error({
+        type: LoggingTypeEnum.error,
+        stack: error.stack,
+        message: error,
+      })
+      throw error
     }
   }
 
-  sortEntities(entities: Record<string, unknown>, connection: Connection): Record<string, unknown> {
-    const result = {};
-    let count = 0;
+  sortEntities(entities: Record<string, unknown>, connection: Connection = this.connection): Record<string, unknown> {
+    const result = {}
+    let count = 0
 
     while (Object.keys(entities).length !== Object.keys(result).length && count < 100) {
-      count++;
+      count++
       Object.keys(entities).forEach((key) => {
         if (result[key]) {
-          return;
+          return
         }
         const relations = connection
           .getMetadata(key)
           .relations.filter((relation: RelationMetadata & { type?: { name: string } }) => {
             if (this.isInMap(result, relation.type.name)) {
-              return false;
+              return false
             }
 
             //check if relation required for many to many
             if (relation.isManyToMany) {
-              return relation.isManyToManyOwner;
+              return relation.isManyToManyOwner
             }
             //check if relation required for one to many
             else if (relation.isManyToOne) {
-              return true;
+              return true
             }
             //check if relation required for one to one
             else if (relation.isOneToOne) {
-              return relation.isOneToOneOwner;
+              return relation.isOneToOneOwner
             }
-          });
+          })
         if (relations.length === 0) {
-          result[key] = entities[key];
+          result[key] = entities[key]
         }
-      });
+      })
     }
-    return result;
+    return result
   }
 
   isInMap(entities: Record<string, unknown>, type: string): boolean {
-    return Object.keys(entities).some((key) => key === type);
+    return Object.keys(entities).some((key) => key === type)
   }
 
   async removeEntities(entities: Record<string, unknown>, connection: Connection): Promise<void> {
-    const keys = Object.keys(entities).reverse();
-    for (const key of keys) {
-      const relations = connection.getMetadata(key).relations.filter((relation) => relation.isManyToManyOwner);
-      for (const relation of relations) {
-        await connection.manager.query(`DELETE FROM "${relation.joinTableName}";`);
-      }
-
-      await connection.manager.delete(key, {});
-    }
+    const keys = Object.keys(entities).reverse()
+    const limiter = pLimit(this.configService.get('application.maxConcurrencyLimit'))
+    await Promise.all(
+      keys.map((key) =>
+        limiter(async () => {
+          const relations = connection.getMetadata(key).relations.filter((relation) => relation.isManyToManyOwner)
+          await Promise.all(
+            relations.map(({ joinTableName }) =>
+              limiter(() => connection.manager.query(`TRUNCATE TABLE "${joinTableName}" CASCADE;`)),
+            ),
+          )
+          await connection.manager.delete(key, {})
+        }),
+      ),
+    )
   }
 
   async seedRelations<Entity>(
     type: string,
     entities: Entity[],
-    connection: Connection,
+    connection: Connection = this.connection,
     savedEntities: Record<string, Entity[]>,
   ): Promise<Entity[]> {
-    const newEntities = [];
+    const newEntities = []
     const relations = connection
       .getMetadata(type)
       .relations.filter(
@@ -130,163 +186,153 @@ export class ImportService {
           relation.isManyToOne ||
           (relation.isManyToMany && relation.isManyToManyOwner) ||
           (relation.isOneToOne && relation.isOneToOneOwner),
-      );
+      )
     if (relations.length > 0) {
       for (let index = 0; index < entities.length; index++) {
-        let addEntity = true;
-        const entity = entities[index];
-        for (const rel of relations) {
-          const relation = rel as RelationMetadata & { type?: { name: string } };
-          const keys = Object.keys(entity);
-          const keyExists = keys.find((k) => k.includes(relation.propertyName + '@'));
-          const data = this.getDataFromEntities(savedEntities, relation.type.name);
-          if (keyExists) {
-            const [, columnName] = keyExists.split('@');
-            if (relation.isManyToMany) {
-              const requestedEntities = [];
-              const arrayValues: string = entity[keyExists].slice(1, -1);
-              if (arrayValues.length === 0) {
-                continue;
-              }
-              const values = arrayValues.split('-');
-              for (const value of values) {
-                if (value === '' || value === 'null') {
-                  continue;
+        let addEntity = true
+        const entity = entities[index]
+        await Promise.all(
+          relations.map(async (rel) => {
+            const relation = rel as RelationMetadata & { type?: { name: string } }
+            const keys = Object.keys(entity)
+            const keyExists = keys.find((k) => k.includes(relation.propertyName + '@'))
+            const data = this.getDataFromEntities(savedEntities, relation.type.name)
+            if (keyExists) {
+              const [, columnName] = keyExists.split('@')
+              if (relation.isManyToMany) {
+                const arrayValues: string = entity[keyExists].slice(1, -1)
+                if (arrayValues.length === 0) {
+                  return
+                }
+                const values = arrayValues.split('-')
+                const requestedEntities = await connection
+                  .createQueryBuilder(relation.type.name, 'entity')
+                  .where(`entity.${columnName}  IN (:...values)`, { value: values.filter((value) => !!value) })
+                  .getMany()
+                if (requestedEntities.length > 0) {
+                  entity[relation.propertyName] = requestedEntities
+                } else {
+                  const errorMessage = `Requested relation entities was not found ${keyExists}:${entity[keyExists]}`
+                  this.logger.log(errorMessage)
+                  addEntity = false
+                }
+              } else {
+                if (entity[keyExists] === '' || entity[keyExists] === 'null') {
+                  return
                 }
                 const requestedEntity = await connection
                   .createQueryBuilder(relation.type.name, 'entity')
-                  .where(`entity.${columnName} = :value`, { value })
-                  .getOne();
+                  .where(`entity.${columnName} = :value`, { value: entity[keyExists] })
+                  .getOne()
                 if (requestedEntity) {
-                  requestedEntities.push(requestedEntity);
+                  entity[relation.propertyName] = requestedEntity
+                } else {
+                  const errorMessage = `Requested relation entity was not found '${keyExists}:${entity[keyExists]}'`
+                  this.logger.log(errorMessage)
+                  addEntity = false
                 }
               }
-              if (requestedEntities.length > 0) {
-                entity[relation.propertyName] = requestedEntities;
-              } else {
-                const errorMessage = `Requested relation entities was not found ${keyExists}:${entity[keyExists]}`;
-                this.logger.log(errorMessage);
-                addEntity = false;
-              }
-            } else {
-              if (entity[keyExists] === '' || entity[keyExists] === 'null') {
-                continue;
-              }
-              const requestedEntity = await connection
-                .createQueryBuilder(relation.type.name, 'entity')
-                .where(`entity.${columnName} = :value`, { value: entity[keyExists] })
-                .getOne();
-              if (requestedEntity) {
-                entity[relation.propertyName] = requestedEntity;
-              } else {
-                const errorMessage = `Requested relation entity was not found '${keyExists}:${entity[keyExists]}'`;
-                this.logger.log(errorMessage);
-                addEntity = false;
-              }
+              return
             }
-            continue;
-          }
-          entity[relation.propertyName] = relation.isManyToOne
-            ? data[faker.datatype.number({ min: 0, max: data.length - 1 })]
-            : relation.isOneToOne
+            entity[relation.propertyName] = relation.isManyToOne
+              ? data[faker.datatype.number({ min: 0, max: data.length - 1 })]
+              : relation.isOneToOne
               ? data[index]
-              : faker.random.arrayElements(data, faker.datatype.number({ min: 1, max: 5 }));
-        }
+              : faker.random.arrayElements(data, faker.datatype.number({ min: 1, max: 5 }))
+          }),
+        )
         if (addEntity) {
-          newEntities.push(entity);
+          newEntities.push(entity)
         }
       }
     } else {
-      newEntities.push(...entities);
+      newEntities.push(...entities)
     }
 
-    return newEntities;
+    return newEntities
   }
 
   getDataFromEntities<Entity>(savedEntities: Entity, type: string): Record<string, unknown>[] {
-    const data = [];
-    const types = Object.keys(savedEntities);
-    types.forEach((t) => {
+    return Object.keys(savedEntities).reduce((acc, t) => {
       if (t === type.toString()) {
-        data.push(...savedEntities[t]);
+        return [...acc, savedEntities[t]]
       }
-    });
-    return data;
+      return acc
+    }, [])
   }
 
-  async createOrGetEntities<Entity>(entityName: string, entities: Entity[], connection: Connection): Promise<Entity[]> {
-    const entitiesToReturn = [];
-    const entityMetaData = connection.getMetadata(entityName);
+  async createOrGetEntities<Entity>(entityName: string, entities: Entity[], connection: Connection = this.connection): Promise<Entity[]> {
+    const entityMetaData = connection.getMetadata(entityName)
+    const updatedEntities = this.updateEntityColumnValues(entityName, entities, connection)
+    if (entityMetaData.ownUniques.length) {
+      return Promise.all(updatedEntities.map((entity) => this.getEntitiesToReturn(entity, connection, entityName)))
+    }
+    return connection.manager.create(entityName, updatedEntities as DeepPartial<Entity>[])
+  }
+
+  private updateEntityColumnValues<Entity>(entityName: string, entities: Entity[], connection: Connection): Entity[] {
+    const entityMetaData = connection.getMetadata(entityName)
     const jsonColumns = entityMetaData.columns
       .filter((e) => e.type === 'json' || e.type === 'jsonb')
-      .map((e) => e.databaseName);
-    if (jsonColumns.length > 0) {
-      for (const ent of entities) {
-        for (const jsonCol of jsonColumns) {
-          try {
-            if (ent[jsonCol]) {
-              ent[jsonCol] = JSON.parse(ent[jsonCol]);
-            }
-          } catch (_) {
-            /* Do nothing */
+      .map((e) => e.databaseName)
+    if (!jsonColumns.length) {
+      return entities
+    }
+    return entities.reduce((acc, ent) => {
+      jsonColumns.forEach((jsonCol) => {
+        try {
+          if (ent[jsonCol]) {
+            ent[jsonCol] = JSON.parse(ent[jsonCol])
           }
+        } catch (_) {
+          /* Do nothing */
         }
+      })
+      return [...acc, ent]
+    }, [])
+  }
+
+  private async getEntitiesToReturn<Entity>(
+    entity: Entity,
+    connection: Connection = this.connection,
+    entityName: string,
+  ): Promise<Entity> {
+    const foundEntity = await this.findEntity(entity, connection, entityName)
+    if (foundEntity) {
+      Object.keys(entity).forEach((key) => {
+        foundEntity[key] = entity[key]
+      })
+      return connection.manager.create<Entity>(entityName, foundEntity)
+    }
+    return connection.manager.create<Entity>(entityName, entity as DeepPartial<Entity>)
+  }
+
+  private async findEntity<Entity>(
+    entity: Entity,
+    connection: Connection,
+    entityName: string,
+  ): Promise<DeepPartial<Entity>> {
+    const entityMetaData = connection.getMetadata(entityName)
+    const columnNames = this.getUniqueColumnNames(entity, entityMetaData)
+    const query = connection.createQueryBuilder<DeepPartial<Entity>>(entityName, 'entity')
+    for (const columns of columnNames || []) {
+      for (const columnName of columns || []) {
+        query.andWhere(`entity.${columnName} = :${columnName}Value`, {
+          [`${columnName}Value`]: entity[columnName],
+        })
       }
     }
-    if (entityMetaData.ownUniques.length !== 0) {
-      for (const entity of entities) {
-        const columnNames: string[][] = [[]];
-        entityMetaData.ownUniques.forEach((unique) => {
-          const givenColumnNames = (unique.givenColumnNames as string[]) || [];
-          if (givenColumnNames.length > 0) {
-            // For compound unique constraints
-            if (givenColumnNames.length > 1) {
-              const compoundUniqueConstraintFields = [];
-              let considerColumnsFromCompoundConstraint = false;
-              givenColumnNames.forEach((name) => {
-                if (entity[name] !== undefined) {
-                  compoundUniqueConstraintFields.push(name);
-                } else {
-                  considerColumnsFromCompoundConstraint = false;
-                }
-              });
-              if (considerColumnsFromCompoundConstraint) {
-                columnNames.push(compoundUniqueConstraintFields);
-              }
-            } else if (entity[givenColumnNames[0]] !== undefined) {
-              columnNames.push(givenColumnNames);
-            }
-          }
-        });
+    const foundEntities = await query.getMany()
+    return foundEntities.find((i) => !!i)
+  }
 
-        let foundEntity;
-        if (columnNames.length !== 0) {
-          for (const columns of columnNames) {
-            const query = connection.createQueryBuilder(entityName, 'entity');
-            if (columns.length > 0) {
-              for (const columnName of columns) {
-                query.andWhere(`entity.${columnName} = :value`, { value: entity[columnName] });
-              }
-              foundEntity = await query.getOne();
-              if (foundEntity) {
-                break;
-              }
-            }
-          }
-        }
-        if (foundEntity) {
-          Object.keys(entity).forEach((key) => {
-            foundEntity[key] = entity[key];
-          });
-          entitiesToReturn.push(connection.manager.create(entityName, foundEntity));
-        } else {
-          entitiesToReturn.push(connection.manager.create(entityName, entity as DeepPartial<Entity>));
-        }
+  private getUniqueColumnNames<Entity>(entity: Entity, entityMetaData: EntityMetadata): string[][] {
+    return entityMetaData.ownUniques.reduce((acc, unique) => {
+      const givenColumnNames = (unique.givenColumnNames as string[]) || []
+      if (!givenColumnNames.length) {
+        return acc
       }
-    } else {
-      entitiesToReturn.push(...connection.manager.create(entityName, entities as DeepPartial<Entity>[]));
-    }
-
-    return entitiesToReturn;
+      return [...acc, givenColumnNames.filter((name) => entity[name] !== undefined)]
+    }, [])
   }
 }
