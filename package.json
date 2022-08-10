@@ -1,0 +1,61 @@
+{
+  "name": "@roq/core",
+  "version": "1.0.0",
+  "description": "Roq core package",
+  "main": "dist/src/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roqtech/roq-core.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/roqtech/roq-core/issues"
+  },
+  "homepage": "https://github.com/roqtech/roq-core#readme",
+  "volta": {
+    "node": "16.15.1",
+    "npm": "7.24.2"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.6.9",
+    "@google-cloud/logging": "^10.0.4",
+    "@nestjs/common": "^8.4.7",
+    "@nestjs/config": "^1.2.1",
+    "@nestjs/core": "^8.4.7",
+    "@nestjs/graphql": "^9.1.2",
+    "@nestjs/typeorm": "^8.0.4",
+    "@roq/class-validator": "^0.1.0",
+    "cache-manager": "^4.0.1",
+    "csvtojson": "^2.0.10",
+    "dataloader": "^2.1.0",
+    "faker": "^5.5.3",
+    "handlebars": "^4.7.7",
+    "isomorphic-fetch": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "logform": "^2.4.2",
+    "nest-winston": "^1.6.2",
+    "nestjs-cls": "^1.6.2",
+    "nestjs-console": "^7.0.1",
+    "p-limit": "^3.1.0",
+    "tsc-alias": "^1.6.11",
+    "type-graphql": "^1.1.1",
+    "typeorm": "^0.2.45",
+    "winston": "^3.8.1"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^8.2.8",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2"
+  }
+}

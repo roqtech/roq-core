@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "sourceMap": false,
+    "baseUrl": ".",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "paths": {
+      "src/*": [
+        "src/*"
+      ],
+      "tests/*": [
+        "test/*"
+      ]
+    },
+    "rootDir": ".",
+    "lib": ["es2017", "esnext.asynciterable", "dom"],
+    "target": "es2017"
+  },
+  "extends": "./tsconfig.base.json",
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
+}
