@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import { gql } from 'apollo-server-express';
+import { gql } from '@apollo/client/core';
 import { CommandOptions } from 'commander';
 import * as csv from 'csvtojson';
 import * as fs from 'fs';
