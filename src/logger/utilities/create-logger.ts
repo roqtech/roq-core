@@ -7,12 +7,16 @@ import { initialFormat, messageFormat, skipFieldsFormat } from 'src/logger/forma
 import { GoogleCloudTransport, NewrelicTransport } from 'src/logger/transports';
 import * as winston from 'winston';
 
-export function createLogger(configService: ConfigService): LoggerService {
+export function createLogger(configService: ConfigService, additionalTransports: winston.transport[] = []): LoggerService {
   const cls = ClsServiceManager.getClsService();
-  const formats = [initialFormat(configService, cls), skipFieldsFormat(configService), messageFormat()];
+  const formats = [
+    initialFormat(configService, cls),
+    skipFieldsFormat(configService),
+    messageFormat()
+  ];
   const format = winston.format.combine(...formats);
 
-  const transports = [];
+  const transports: winston.transport[] = [];
 
   if (configService.get('application.consoleLogs')) {
     if (configService.get('application.cloudLogs')) {
@@ -35,8 +39,17 @@ export function createLogger(configService: ConfigService): LoggerService {
   if (configService.get('application.newrelic')) {
     transports.push(new NewrelicTransport({}));
   }
+
+  const mergedTransports = additionalTransports.reduce((acc, curr) => {
+    const filteredTransports = acc.filter((transport) => transport?.constructor?.name !== curr?.constructor?.name);
+    return [
+      ...filteredTransports,
+      curr,
+    ];
+  }, transports);
+
   return WinstonModule.createLogger({
     format,
-    transports,
+    transports: mergedTransports,
   });
 }
