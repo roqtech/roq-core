@@ -1,5 +1,5 @@
 import { applyDecorators } from '@nestjs/common';
-import { Transform } from 'class-transformer';
+import { Transform, TransformFnParams } from 'class-transformer';
 
 /**
  * Trims the original value
@@ -7,5 +7,12 @@ import { Transform } from 'class-transformer';
 export const Trim = (): PropertyDecorator =>
   applyDecorators(
     Transform(
-      (arg: unknown) => typeof arg=== 'string' ? arg?.trim?.(): arg)
+      (arg: TransformFnParams) => {
+        if (typeof arg === 'object' && arg.value !== undefined) {
+          return typeof arg.value === 'string' ? arg?.value?.trim?.() : arg.value
+        } else if (typeof arg === 'string') {
+          return (arg as string).trim?.()
+        }
+        return arg
+      })
   );
