@@ -7,5 +7,12 @@ import { Transform, TransformFnParams } from 'class-transformer';
 export const Trim = (): PropertyDecorator =>
   applyDecorators(
     Transform(
-      (arg: TransformFnParams) => typeof arg.value === 'string' ? arg?.value.trim?.() : arg.value)
+      (arg: TransformFnParams) => {
+        if (typeof arg === 'object' && arg.value !== undefined) {
+          return typeof arg.value === 'string' ? arg?.value?.trim?.() : arg.value
+        } else if (typeof arg === 'string') {
+          return (arg as string).trim?.()
+        }
+        return arg
+      })
   );
