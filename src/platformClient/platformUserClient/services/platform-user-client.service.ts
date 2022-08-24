@@ -42,7 +42,7 @@ import { PlatformServiceAccountClientService } from 'src/platformClient/services
 @Injectable()
 export class PlatformUserClientService {
   constructor(
-    private readonly platformServiceAccountClientService: PlatformServiceAccountClientService
+    protected readonly platformServiceAccountClientService: PlatformServiceAccountClientService
     ) {}
 
   async createUser(variables: UserCreateMutationArgs): Promise<UserResponseType> {

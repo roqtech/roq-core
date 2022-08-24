@@ -5,7 +5,7 @@ import { PlatformServiceAccountClientService } from 'src/platformClient/services
 
 @Injectable()
 export class PlatformMailClientService {
-  constructor(private readonly platformServiceAccountClientService: PlatformServiceAccountClientService) { }
+  constructor(protected readonly platformServiceAccountClientService: PlatformServiceAccountClientService) { }
 
   async sendMail(payload: MailSendDto): Promise<boolean> {
     return this.platformServiceAccountClientService.request<boolean>(

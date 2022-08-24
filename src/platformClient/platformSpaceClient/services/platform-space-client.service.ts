@@ -9,7 +9,7 @@ import {
   updateFileStatusMutation,
 } from 'src/platformClient/platformSpaceClient/graphql';
 import { FileCreateParamsType, FileResponseType, GetFilesArgsType } from 'src/platformClient/platformSpaceClient/types';
-import { PlatformClientService } from 'src/platformClient/services';
+import { PlatformClientService, PlatformServiceAccountClientService } from 'src/platformClient/services';
 import { ExceptionMappingType } from 'src/platformClient/types';
 
 @Injectable()
@@ -18,19 +18,20 @@ export class PlatformSpaceClientService {
     [ErrorCodeEnum.INVALID_CONTENT_TYPE_FOR_FILE_CATEGORY]: InvalidContentTypeForFileCategoryException,
   };
 
-  constructor(private readonly platformClientService: PlatformClientService) { }
+  constructor(protected readonly platformServiceAccountClientService: PlatformServiceAccountClientService) {
+  }
 
   private static parseException(e): BadRequestException {
     return PlatformClientService.parseException(e, PlatformSpaceClientService.exceptionMapping);
   }
 
   async createFile({
-    fileName,
-    fileType,
-    customMetaData,
-    fileAssociationOptions = [],
-    fileCategory,
-  }: FileCreateParamsType): Promise<FileResponseType> {
+                     fileName,
+                     fileType,
+                     customMetaData,
+                     fileAssociationOptions = [],
+                     fileCategory,
+                   }: FileCreateParamsType): Promise<FileResponseType> {
     const variables = {
       fileName,
       fileType,
@@ -40,7 +41,7 @@ export class PlatformSpaceClientService {
     };
 
     try {
-      return await this.platformClientService.request<FileResponseType>(
+      return await this.platformServiceAccountClientService.request<FileResponseType>(
         {
           mutation: createFileUploadUrlMutation,
           variables,
@@ -58,7 +59,7 @@ export class PlatformSpaceClientService {
       status,
     };
     try {
-      return await this.platformClientService.request<FileResponseType>(
+      return await this.platformServiceAccountClientService.request<FileResponseType>(
         {
           mutation: updateFileStatusMutation,
           variables,
@@ -73,7 +74,7 @@ export class PlatformSpaceClientService {
   async getFile(fileId: string): Promise<FileResponseType> {
     const variables = { fileId };
     try {
-      return await this.platformClientService.request<FileResponseType>(
+      return await this.platformServiceAccountClientService.request<FileResponseType>(
         {
           query: fileQuery,
           variables,
@@ -87,7 +88,7 @@ export class PlatformSpaceClientService {
 
   async getFiles(args: GetFilesArgsType): Promise<FileResponseType[]> {
     try {
-      const fileModel = await this.platformClientService.request<{ data: FileResponseType[] }>(
+      const fileModel = await this.platformServiceAccountClientService.request<{ data: FileResponseType[] }>(
         {
           query: filesQuery,
           variables: args,
