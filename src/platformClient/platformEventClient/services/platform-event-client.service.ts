@@ -5,7 +5,7 @@ import { PlatformServiceAccountClientService } from 'src/platformClient/services
 
 @Injectable()
 export class PlatformEventClientService {
-  constructor(private readonly platformServiceAccountClientService: PlatformServiceAccountClientService) {}
+  constructor(protected readonly platformServiceAccountClientService: PlatformServiceAccountClientService) {}
 
   async trigger(event: TriggerEventMutationArgs): Promise<string> {
     return this.platformServiceAccountClientService.request<string>(

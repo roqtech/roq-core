@@ -6,7 +6,7 @@ import { PlatformServiceAccountClientService } from 'src/platformClient/services
 @Injectable()
 export class PlatformNotificationClientService {
   constructor(
-    private readonly platformServiceAccountClientService: PlatformServiceAccountClientService
+    protected readonly platformServiceAccountClientService: PlatformServiceAccountClientService
   ) {}
 
   async createNotification(notificationData: NotificationCreateMutationArgs): Promise<Notification> {
