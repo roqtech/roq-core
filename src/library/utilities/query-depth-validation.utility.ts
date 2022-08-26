@@ -15,8 +15,10 @@ function determineDepth(
   }
   switch (node.kind) {
     case Kind.FIELD:
+       // by default, ignore the introspection fields which begin with double underscores and explicit fields
+       const shouldIgnore = /^__/.test(node.name.value);
       const isIgnoreField = ignoreFieldNames && ignoreFieldNames.includes(node.name.value);
-      if (!node.selectionSet) {
+      if (shouldIgnore || !node.selectionSet) {
         return 0;
       }
       if(isIgnoreField && node.selectionSet)
