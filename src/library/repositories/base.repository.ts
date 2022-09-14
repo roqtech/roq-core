@@ -82,7 +82,7 @@ export class BaseRepository<T> extends Repository<T> {
     return q;
   }
 
-  private processFilter(
+  protected processFilter(
     filter: QueryFilterInterface,
     entityMetadata: EntityMetadata,
     tableName: string,
