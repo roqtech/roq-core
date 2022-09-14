@@ -29,13 +29,12 @@ export class PlatformSpaceClientService {
     return PlatformClientService.parseException(e, PlatformSpaceClientService.exceptionMapping);
   }
 
-  private getRequestServiceInstance(): PlatformServiceAccountClientService | PlatformClientService  {
-    let requestClientServiceInstance: PlatformServiceAccountClientService | PlatformClientService = this.platformServiceAccountClientService;
+  private getRequestServiceInstance(): PlatformClientService {
     const userToken = this.cls.get(ClsKeyEnum.USER_TOKEN);
     if (userToken) {
-      requestClientServiceInstance = this.platformClientService;
+      return this.platformClientService;
     }
-    return requestClientServiceInstance;
+    return this.platformServiceAccountClientService;
   }
 
   async createFile({
