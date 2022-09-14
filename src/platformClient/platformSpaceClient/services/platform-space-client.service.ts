@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { ErrorCodeEnum } from 'src/library/enums';
+import { ClsKeyEnum, ErrorCodeEnum } from 'src/library/enums';
 import { InvalidContentTypeForFileCategoryException } from 'src/library/exception';
 import { FileStatusEnum } from 'src/platformClient/platformSpaceClient/enums';
 import {
@@ -11,6 +11,7 @@ import {
 import { FileCreateParamsType, FileResponseType, GetFilesArgsType } from 'src/platformClient/platformSpaceClient/types';
 import { PlatformClientService, PlatformServiceAccountClientService } from 'src/platformClient/services';
 import { ExceptionMappingType } from 'src/platformClient/types';
+import { ClsService } from 'nestjs-cls';
 
 @Injectable()
 export class PlatformSpaceClientService {
@@ -18,11 +19,23 @@ export class PlatformSpaceClientService {
     [ErrorCodeEnum.INVALID_CONTENT_TYPE_FOR_FILE_CATEGORY]: InvalidContentTypeForFileCategoryException,
   };
 
-  constructor(protected readonly platformServiceAccountClientService: PlatformServiceAccountClientService) {
+  constructor(protected readonly platformServiceAccountClientService: PlatformServiceAccountClientService,
+    protected readonly platformClientService: PlatformClientService,
+    protected readonly cls: ClsService,
+  ) {
   }
 
   private static parseException(e): BadRequestException {
     return PlatformClientService.parseException(e, PlatformSpaceClientService.exceptionMapping);
+  }
+
+  private getRequestServiceInstance(): PlatformServiceAccountClientService | PlatformClientService  {
+    let requestClientServiceInstance: PlatformServiceAccountClientService | PlatformClientService = this.platformServiceAccountClientService;
+    const userToken = this.cls.get(ClsKeyEnum.USER_TOKEN);
+    if (userToken) {
+      requestClientServiceInstance = this.platformClientService;
+    }
+    return requestClientServiceInstance;
   }
 
   async createFile({
@@ -41,7 +54,8 @@ export class PlatformSpaceClientService {
     };
 
     try {
-      return await this.platformServiceAccountClientService.request<FileResponseType>(
+
+      return await this.getRequestServiceInstance().request<FileResponseType>(
         {
           mutation: createFileUploadUrlMutation,
           variables,
@@ -59,7 +73,7 @@ export class PlatformSpaceClientService {
       status,
     };
     try {
-      return await this.platformServiceAccountClientService.request<FileResponseType>(
+      return await this.getRequestServiceInstance().request<FileResponseType>(
         {
           mutation: updateFileStatusMutation,
           variables,
@@ -74,7 +88,7 @@ export class PlatformSpaceClientService {
   async getFile(fileId: string): Promise<FileResponseType> {
     const variables = { fileId };
     try {
-      return await this.platformServiceAccountClientService.request<FileResponseType>(
+      return await this.getRequestServiceInstance().request<FileResponseType>(
         {
           query: fileQuery,
           variables,
@@ -88,7 +102,7 @@ export class PlatformSpaceClientService {
 
   async getFiles(args: GetFilesArgsType): Promise<FileResponseType[]> {
     try {
-      const fileModel = await this.platformServiceAccountClientService.request<{ data: FileResponseType[] }>(
+      const fileModel = await this.getRequestServiceInstance().request<{ data: FileResponseType[] }>(
         {
           query: filesQuery,
           variables: args,
