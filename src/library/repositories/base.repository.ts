@@ -10,6 +10,7 @@ import {
   QueryFilterInterface,
   QueryInterface,
   StringFilterInterface,
+  QueryOrderInterface,
 } from 'src/library/interfaces';
 import { EntityMetadata, Repository, SelectQueryBuilder } from 'typeorm';
 import { RelationMetadata } from 'typeorm/metadata/RelationMetadata';
@@ -37,8 +38,7 @@ export class BaseRepository<T> extends Repository<T> {
       q.andWhere(`${tableName}.${key} LIKE :value `, { value: `%${value}%` });
     }
     if (order) {
-      const { sort, order: sortOrder } = order;
-      q.orderBy(`${tableName}.${sort}`, sortOrder);
+      this.processOrder(order, entityMetadata, tableName, q);
     } else {
       q.orderBy(`${tableName}.createdAt`, 'DESC');
     }
@@ -80,6 +80,22 @@ export class BaseRepository<T> extends Repository<T> {
     });
 
     return q;
+  }
+
+  protected processOrder(order: QueryOrderInterface, entityMetadata: EntityMetadata, tableName: string, q: SelectQueryBuilder<T>) {
+    const { sort, order: sortOrder } = order;
+    const isRelationSort = sort.includes('.');
+
+    if (isRelationSort) {
+      const [relationName, relationSortField] = sort.split('.');
+      const relation = entityMetadata.relations.find((r) => r.propertyPath === relationName);
+      const relationPath = `${tableName}.${relation.propertyPath}`;
+      const relationAlias = `${tableName}${relation.propertyPath}`;
+      q.innerJoinAndSelect(relationPath, relationAlias);
+      q.orderBy(`${relationAlias}.${relationSortField}`, sortOrder);
+    } else {
+      q.orderBy(`${tableName}.${sort}`, sortOrder);
+    }
   }
 
   protected processFilter(

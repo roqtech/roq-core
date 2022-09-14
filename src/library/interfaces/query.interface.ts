@@ -1,5 +1,4 @@
-import { OrderEnum } from 'src/library/enums';
-import { QueryFilterInterface } from 'src/library/interfaces';
+import { QueryFilterInterface, QueryOrderInterface } from 'src/library/interfaces';
 
 export interface QueryInterface {
   offset?: number;
@@ -11,9 +10,6 @@ export interface QueryInterface {
   };
   id?: string;
   ids?: string[];
-  order?: {
-    order: OrderEnum;
-    sort: string;
-  };
+  order?: QueryOrderInterface
   filter?: QueryFilterInterface;
 }
