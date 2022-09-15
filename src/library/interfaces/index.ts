@@ -12,6 +12,7 @@ export type { ValueInFilterInterface } from './value-in-filter.interface';
 export type { ValueNotInFilterInterface } from './value-not-in-filter.interface';
 export type { DateFilterInterface } from './date-filter.interface';
 export type { QueryFilterInterface } from './query-filter.interface';
+export type { QueryOrderInterface } from './query-order.interface';
 export type { MoreThanEqualFilterInterface } from './more-than-equal-filter.interface';
 export type { LessThanEqualFilterInterface } from './less-than-equal-filter.interface';
 export type { GraphqlContextInterface } from 'src/library/interfaces/graphql-context.interface';
