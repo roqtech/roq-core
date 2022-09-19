@@ -19,22 +19,23 @@ export class PlatformSpaceClientService {
     [ErrorCodeEnum.INVALID_CONTENT_TYPE_FOR_FILE_CATEGORY]: InvalidContentTypeForFileCategoryException,
   };
 
-  constructor(protected readonly platformServiceAccountClientService: PlatformServiceAccountClientService,
-    protected readonly platformClientService: PlatformClientService,
+  constructor(
+    protected readonly _platformServiceAccountClientService: PlatformServiceAccountClientService,
+    protected readonly _platformClientService: PlatformClientService,
     protected readonly cls: ClsService,
   ) {
   }
 
-  private static parseException(e): BadRequestException {
+  protected static parseException(e): BadRequestException {
     return PlatformClientService.parseException(e, PlatformSpaceClientService.exceptionMapping);
   }
 
-  private getRequestServiceInstance(): PlatformClientService {
+  protected get platformClientService(): PlatformClientService {
     const userToken = this.cls.get(ClsKeyEnum.USER_TOKEN);
     if (userToken) {
-      return this.platformClientService;
+      return this._platformClientService;
     }
-    return this.platformServiceAccountClientService;
+    return this._platformServiceAccountClientService;
   }
 
   async createFile({
@@ -54,7 +55,7 @@ export class PlatformSpaceClientService {
 
     try {
 
-      return await this.getRequestServiceInstance().request<FileResponseType>(
+      return await this.platformClientService.request<FileResponseType>(
         {
           mutation: createFileUploadUrlMutation,
           variables,
@@ -72,7 +73,7 @@ export class PlatformSpaceClientService {
       status,
     };
     try {
-      return await this.getRequestServiceInstance().request<FileResponseType>(
+      return await this.platformClientService.request<FileResponseType>(
         {
           mutation: updateFileStatusMutation,
           variables,
@@ -87,7 +88,7 @@ export class PlatformSpaceClientService {
   async getFile(fileId: string): Promise<FileResponseType> {
     const variables = { fileId };
     try {
-      return await this.getRequestServiceInstance().request<FileResponseType>(
+      return await this.platformClientService.request<FileResponseType>(
         {
           query: fileQuery,
           variables,
@@ -101,7 +102,7 @@ export class PlatformSpaceClientService {
 
   async getFiles(args: GetFilesArgsType): Promise<FileResponseType[]> {
     try {
-      const fileModel = await this.getRequestServiceInstance().request<{ data: FileResponseType[] }>(
+      const fileModel = await this.platformClientService.request<{ data: FileResponseType[] }>(
         {
           query: filesQuery,
           variables: args,
