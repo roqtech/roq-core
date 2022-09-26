@@ -1,0 +1,5 @@
+export declare enum MailTypeEnum {
+    CONFIRM_MAIL = "CONFIRM_MAIL",
+    RESET_PASSWORD_MAIL = "RESET_PASSWORD_MAIL",
+    WELCOME_USER_MAIL = "WELCOME_USER_MAIL"
+}

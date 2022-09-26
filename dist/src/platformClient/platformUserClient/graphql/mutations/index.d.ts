@@ -1,0 +1,12 @@
+export { createUserProviderMutation } from '../../../../platformClient/platformUserClient/graphql/mutations/create-user-provider.mutation';
+export { createUserRefreshTokenMutation } from '../../../../platformClient/platformUserClient/graphql/mutations/create-user-refresh-token.mutation';
+export { createUserResetPasswordTokenMutation } from '../../../../platformClient/platformUserClient/graphql/mutations/create-user-reset-password-token.mutation';
+export { createUserValidateEmailTokenMutation } from '../../../../platformClient/platformUserClient/graphql/mutations/create-user-validate-email-token.mutation';
+export { createUserMutation } from '../../../../platformClient/platformUserClient/graphql/mutations/create-user.mutation';
+export { deleteUserProvidersMutation } from '../../../../platformClient/platformUserClient/graphql/mutations/delete-user-providers.mutation';
+export { deleteUserTokensMutation } from '../../../../platformClient/platformUserClient/graphql/mutations/delete-user-tokens.mutation';
+export { rotateRefreshTokenMutation } from '../../../../platformClient/platformUserClient/graphql/mutations/rotate-refresh-token.mutation';
+export { verifyUserRefreshTokenMutation } from '../../../../platformClient/platformUserClient/graphql/mutations/verify-user-refresh-token.mutation';
+export { clearUserRefreshTokensMutation } from '../../../../platformClient/platformUserClient/graphql/mutations/clear-user-refresh-tokens.mutation';
+export { acceptUserInvitationMutation } from '../../../../platformClient/platformUserClient/graphql/mutations/accept-user-invitation.mutation';
+export { updateUserInviteMutation } from '../../../../platformClient/platformUserClient/graphql/mutations/update-user-invite.mutation';
