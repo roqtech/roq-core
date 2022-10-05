@@ -20,6 +20,7 @@ export const filesQuery = gql`
         status
         name
         customMetaData
+        contentType
         fileAssociations {
           data {
             entityIdentifier
