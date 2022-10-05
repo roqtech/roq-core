@@ -12,6 +12,7 @@ query file($fileId: ID!) {
     createdAt
     updatedAt
     isPublic
+    contentType
   }
 }
 `;

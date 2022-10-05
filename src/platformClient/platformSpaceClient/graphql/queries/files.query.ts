@@ -21,6 +21,7 @@ export const filesQuery = gql`
         name
         customMetaData
         isPublic
+        contentType
         fileAssociations {
           data {
             entityIdentifier
