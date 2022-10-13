@@ -6,7 +6,7 @@ mutation createFileUploadUrl(
   $fileType: String!
   $fileCategory: String!
   $customMetaData: JsonObject
-  $fileAssociationOptions: [FileAssociationCreateDto!]
+  $fileAssociationOptions: [FileAssociationOptionsCreateDto!]
 ) {
   createFileUploadUrl(
     createFileDto: {
