@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import * as faker from 'faker';
-import { LoggingTypeEnum } from 'src/logger/enums';
-import { Logger } from 'src/logger/services';
-import { Connection, DeepPartial, EntityMetadata } from 'typeorm';
-import { RelationMetadata } from 'typeorm/metadata/RelationMetadata';
+import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import * as faker from 'faker'
+import { LoggingTypeEnum } from 'src/logger/enums'
+import { Logger } from 'src/logger/services'
+import { Connection, DeepPartial, EntityMetadata } from 'typeorm'
+import { RelationMetadata } from 'typeorm/metadata/RelationMetadata'
 
 const pLimit = require('p-limit')
 
@@ -253,15 +253,21 @@ export class ImportService {
   }
 
   getDataFromEntities<Entity>(savedEntities: Entity, type: string): Record<string, unknown>[] {
-    return Object.keys(savedEntities).reduce((acc, t) => {
+    const data = []
+    const types = Object.keys(savedEntities)
+    types.forEach((t) => {
       if (t === type.toString()) {
-        return [...acc, savedEntities[t]]
+        data.push(...savedEntities[t])
       }
-      return acc
-    }, [])
+    })
+    return data
   }
 
-  async createOrGetEntities<Entity>(entityName: string, entities: Entity[], connection: Connection = this.connection): Promise<Entity[]> {
+  async createOrGetEntities<Entity>(
+    entityName: string,
+    entities: Entity[],
+    connection: Connection = this.connection,
+  ): Promise<Entity[]> {
     const entityMetaData = connection.getMetadata(entityName)
     const updatedEntities = this.updateEntityColumnValues(entityName, entities, connection)
     if (entityMetaData.ownUniques.length) {
