@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client/core'
+import { gql } from '@apollo/client/core';
 
 export const createFileUploadUrlMutation = gql`
   mutation createFileUploadUrl(
@@ -6,7 +6,7 @@ export const createFileUploadUrlMutation = gql`
     $fileType: String!
     $fileCategory: String!
     $customMetaData: JsonObject
-    $fileAssociationOptions: [FileAssociationCreateDto!]
+    $fileAssociationOptions: [FileAssociationOptionsCreateDto!]
   ) {
     createFileUploadUrl(
       createFileDto: {
@@ -29,4 +29,4 @@ export const createFileUploadUrlMutation = gql`
       updatedAt
     }
   }
-`
+`;
